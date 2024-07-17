@@ -1,0 +1,64 @@
+= Genericode
+
+image:https://img.shields.io/gem/v/genericode.svg["Gem Version", link="https://rubygems.org/gems/genericode"]
+image:https://github.com/lutaml/genericode/workflows/rake/badge.svg["Build Status", link="https://github.com/lutaml/genericode/actions?workflow=rake"]
+image:https://codeclimate.com/github/lutaml/genericode/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/lutaml/genericode"]
+
+
+== Purpose
+
+This Ruby gem implements the
+http://docs.oasis-open.org/codelist/genericode/doc/oasis-code-list-representation-genericode.html[OASIS Genericode 1.0 standard].
+
+It can be used to parse and generate code lists in the Genericode format,
+including:
+
+* Genericode XML: `*.gc`
+* Genericode JSON: `*.gcj`
+
+
+== Usage
+
+=== Ruby API
+
+[source,ruby]
+----
+require 'genericode'
+
+# XML element root of `<<gc:CodeList>`
+gc = Genericode::CodeList.from_xml(File.read("spec/fixtures/xml/CaseTypeCode.gc"))
+# Or:
+# JSON element root of `<<gc:CodeList>`
+# gc = Genericode.from_json(File.read("spec/fixtures/json/CaseTypeCode.gcj"))
+
+gc.identification.short_name.content
+# => "CaseTypeCode"
+gc.identification.short_name.version
+# => "5.0"
+
+gc.simple_code_list.row.map(&:value).flatten.map(&:simple_value).map(&:content)
+# => ["appellate", "bankruptcy", "citation", "civil", "criminal", "domestic", "juvenile"]
+----
+
+
+
+[source,ruby]
+----
+require 'genericode'
+
+# XML element root of `<<gc:CodeList>`
+gc = Genericode::CodeList.from_json(File.read("spec/fixtures/xml/CaseTypeCode.gcj"))
+
+gc.identification.short_name.content
+# => "CaseTypeCode"
+gc.identification.short_name.version
+# => "5.0"
+
+gc.simple_code_list.row.map(&:value).flatten.map(&:simple_value).map(&:content)
+# => ["appellate", "bankruptcy", "citation", "civil", "criminal", "domestic", "juvenile"]
+----
+
+
+== License
+
+Copyright Ribose.
