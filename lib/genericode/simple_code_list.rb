@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# --- simple_code_list.rb ---
 require "shale"
 
 require_relative "annotation"

@@ -17,6 +17,7 @@ module Genericode
       map "LongName", to: :long_name
       map "Identifier", to: :identifier
     end
+
     xml do
       root "Agency"
       namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"

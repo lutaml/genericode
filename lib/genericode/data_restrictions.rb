@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# --- data_restrictions.rb ---
 require "shale"
 
 require_relative "datatype_facet"
@@ -14,6 +13,7 @@ module Genericode
       map "Lang", to: :lang
       map "Parameter", to: :parameter
     end
+
     xml do
       root "DataRestrictions"
       namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"

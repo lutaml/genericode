@@ -13,6 +13,7 @@ module Genericode
       map "Identifier", to: :identifier
       map "lang", to: :lang
     end
+
     xml do
       root "GeneralIdentifier"
       namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"

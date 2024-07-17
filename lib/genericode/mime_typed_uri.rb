@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# --- mime_typed_uri.rb ---
 require "shale"
 
 module Genericode

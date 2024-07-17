@@ -28,6 +28,7 @@ module Genericode
       map "CanonicalVersionUri", to: :canonical_version_uri
       map "Data", to: :data
     end
+
     xml do
       root "Column"
       namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"

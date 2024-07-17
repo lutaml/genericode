@@ -20,6 +20,7 @@ module Genericode
       map "Annotation", to: :annotation
       map "Parameter", to: :parameter
     end
+
     xml do
       root "Data"
       namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# --- key_column_ref.rb ---
 require "shale"
 
 require_relative "annotation"

@@ -13,6 +13,7 @@ module Genericode
       map "ShortName", to: :short_name
       map "LongName", to: :long_name
     end
+
     xml do
       root "DatatypeFacet"
       namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"

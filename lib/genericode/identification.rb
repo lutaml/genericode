@@ -28,6 +28,7 @@ module Genericode
       map "AlternateFormatLocationUri", to: :alternate_format_location_uri
       map "Agency", to: :agency
     end
+
     xml do
       root "Identification"
       namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"

@@ -14,6 +14,7 @@ module Genericode
       map "Description", to: :description
       map "AppInfo", to: :app_info
     end
+
     xml do
       root "Annotation"
       namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"

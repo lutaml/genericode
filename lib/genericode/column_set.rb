@@ -12,7 +12,6 @@ require_relative "key_ref"
 module Genericode
   class ColumnSet < Shale::Mapper
     attribute :datatype_library, Shale::Type::String
-    attribute :base, Shale::Type::String
     attribute :annotation, Annotation
     attribute :identification, Identification
     attribute :column, Column, collection: true
@@ -22,7 +21,6 @@ module Genericode
 
     json do
       map "DatatypeLibrary", to: :datatype_library
-      map "base", to: :base
       map "Annotation", to: :annotation
       map "Identification", to: :identification
       map "Column", to: :column
@@ -30,12 +28,12 @@ module Genericode
       map "Key", to: :key
       map "KeyRef", to: :key_ref
     end
+
     xml do
       root "ColumnSet"
       namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
 
       map_attribute "DatatypeLibrary", to: :datatype_library
-      map_attribute "base", to: :base
       map_element "Annotation", to: :annotation, prefix: nil, namespace: nil
       map_element "Identification", to: :identification, prefix: nil, namespace: nil
       map_element "Column", to: :column, prefix: nil, namespace: nil
