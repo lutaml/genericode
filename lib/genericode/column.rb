@@ -6,9 +6,11 @@ require_relative "annotation"
 require_relative "data"
 require_relative "long_name"
 require_relative "short_name"
+require_relative "json/short_name_mixin"
 
 module Genericode
   class Column < Shale::Mapper
+    include Json::ShortNameMixin
     attribute :id, Shale::Type::String
     attribute :use, Shale::Type::String
     attribute :annotation, Annotation
@@ -22,7 +24,7 @@ module Genericode
       map "Id", to: :id
       map "Use", to: :use
       map "Annotation", to: :annotation
-      map "ShortName", to: :short_name
+      map "ShortName", to: :short_name, using: { from: :short_name_from_json, to: :short_name_to_json }
       map "LongName", to: :long_name
       map "CanonicalUri", to: :canonical_uri
       map "CanonicalVersionUri", to: :canonical_version_uri
