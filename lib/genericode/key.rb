@@ -26,7 +26,21 @@ module Genericode
       map "LongName", to: :long_name
       map "CanonicalUri", to: :canonical_uri
       map "CanonicalVersionUri", to: :canonical_version_uri
-      map "ColumnRef", to: :column_ref
+      map "ColumnRef", to: :column_ref, using: { from: :column_ref_from_json, to: :column_ref_to_json }
+    end
+
+    # TODO: notice that the JSON format only allows one value!
+    def column_ref_from_json(model, value)
+      value = [value] if value.is_a?(String)
+
+      model.column_ref = value.map do |kcr|
+        KeyColumnRef.new(ref: kcr)
+      end
+    end
+
+    # TODO: notice that the JSON format only allows one value!
+    def column_ref_to_json(model, doc)
+      doc["ColumnRef"] = model.column_ref.map(&:ref).first
     end
 
     xml do

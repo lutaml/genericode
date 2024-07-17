@@ -20,9 +20,47 @@ module Genericode
     json do
       map "Annotation", to: :annotation
       map "Identification", to: :identification
-      map "ColumnSet", to: :column_set
+      map "Columns", to: :column_set, using: { from: :column_set_from_json, to: :column_set_to_json }
       map "ColumnSetRef", to: :column_set_ref
       map "SimpleCodeList", to: :simple_code_list
+
+      # TODO
+      map "Keys", to: :key, receiver: :column_set, using: { from: :key_from_json, to: :key_to_json }
+      # map "Codes", to: :code
+    end
+
+    def column_set_from_json(model, value)
+      columns = value.map do |x|
+        # This is a really bad way of doing it, but we want to reuse the
+        # JSON mappings. If there was a `from_hash(x, mappings: :json)` then
+        # it would work.
+        Column.from_json(x.to_json)
+      end
+
+      model.column_set = ColumnSet.new(column: columns)
+    end
+
+    def column_set_to_json(model, doc)
+      doc["Columns"] = model.column_set.column.map do |col|
+        col.to_json
+      end
+    end
+
+    def key_from_json(model, value)
+      keys = value.map do |key|
+        # This is a really bad way of doing it, but we want to reuse the
+        # JSON mappings. If there was a `from_hash(x, mappings: :json)` then
+        # it would work.
+        Key.from_json(key.to_json)
+      end
+
+      model.column_set.key = keys
+    end
+
+    def key_to_json(model, doc)
+      doc["Keys"] = model.column_set.key.map do |key|
+        key.to_json
+      end
     end
 
     xml do
