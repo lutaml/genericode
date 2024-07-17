@@ -18,6 +18,7 @@ module Genericode
     attribute :column_set, ColumnSet
     attribute :column_set_ref, ColumnSetRef
     attribute :simple_code_list, SimpleCodeList
+    attribute :schema_location, Shale::Type::String
 
     json do
       map "base", to: :base
@@ -31,6 +32,10 @@ module Genericode
     xml do
       root "CodeList"
       namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
+
+      map_attribute "schemaLocation", to: :schema_location,
+                                      namespace: "http://www.w3.org/2001/XMLSchema-instance",
+                                      prefix: "xsi"
 
       map_attribute "base", to: :base
       map_element "Annotation", to: :annotation, prefix: nil, namespace: nil

@@ -28,8 +28,9 @@
              xsi:schemaLocation="http://docs.oasis-open.org/codelist/ns/genericode/1.0/ https://docs.oasis-open.org/codelist/cs-genericode-1.0/xsd/genericode.xsd">
     <Annotation>
         <AppInfo>
-            <gca:ConformanceTargets
-                    ct:conformanceTargets="http://reference.niem.gov/niem/specification/code-lists/1.0/#GenericodeCodeListDocument"/>
+          <!-- The code cannot parse elements that are from other namespaces, like this: -->
+            <!-- <gca:ConformanceTargets
+                    ct:conformanceTargets="http://reference.niem.gov/niem/specification/code-lists/1.0/#GenericodeCodeListDocument"/> -->
         </AppInfo>
     </Annotation>
     <Identification>
