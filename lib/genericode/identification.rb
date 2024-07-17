@@ -6,9 +6,12 @@ require_relative "agency"
 require_relative "long_name"
 require_relative "mime_typed_uri"
 require_relative "short_name"
+require_relative "json/short_name_mixin"
 
 module Genericode
   class Identification < Shale::Mapper
+    include Json::ShortNameMixin
+
     attribute :short_name, ShortName
     attribute :long_name, LongName, collection: true
     attribute :version, Shale::Type::String
@@ -19,7 +22,7 @@ module Genericode
     attribute :agency, Agency
 
     json do
-      map "ShortName", to: :short_name
+      map "ShortName", to: :short_name, using: { from: :short_name_from_json, to: :short_name_to_json }
       map "LongName", to: :long_name
       map "Version", to: :version
       map "CanonicalUri", to: :canonical_uri
