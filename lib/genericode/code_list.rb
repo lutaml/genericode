@@ -42,7 +42,7 @@ module Genericode
 
     def column_set_to_json(model, doc)
       doc["Columns"] = model.column_set.column.map do |col|
-        col.to_json
+        Shale.json_adapter.load(col.to_json)
       end
     end
 
@@ -59,7 +59,7 @@ module Genericode
 
     def key_to_json(model, doc)
       doc["Keys"] = model.column_set.key.map do |key|
-        key.to_json
+        Shale.json_adapter.load(key.to_json)
       end
     end
 
