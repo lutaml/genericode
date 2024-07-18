@@ -22,11 +22,8 @@ module Genericode
       map "Identification", to: :identification
       map "Columns", to: :column_set, using: { from: :column_set_from_json, to: :column_set_to_json }
       map "ColumnSetRef", to: :column_set_ref
-      map "SimpleCodeList", to: :simple_code_list
-
-      # TODO
       map "Keys", to: :key, receiver: :column_set, using: { from: :key_from_json, to: :key_to_json }
-      # map "Codes", to: :code
+      map "Codes", to: :simple_code_list, using: { from: :simple_code_list_from_json, to: :simple_code_list_to_json }
     end
 
     def column_set_from_json(model, value)
@@ -60,6 +57,24 @@ module Genericode
     def key_to_json(model, doc)
       doc["Keys"] = model.column_set.key.map do |key|
         Shale.json_adapter.load(key.to_json)
+      end
+    end
+
+    def simple_code_list_from_json(model, value)
+      rows = value.map do |x|
+        values = x.map do |k, v|
+          Value.new(column_ref: k, simple_value: SimpleValue.new(content: v))
+        end
+
+        Row.new(value: values)
+      end
+
+      model.simple_code_list = SimpleCodeList.new(row: rows)
+    end
+
+    def simple_code_list_to_json(model, doc)
+      doc["Codes"] = model.simple_code_list.row.map do |row|
+        row.value.to_h { |v| [v.column_ref, v.simple_value.content] }
       end
     end
 
