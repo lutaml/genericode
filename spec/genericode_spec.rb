@@ -42,7 +42,6 @@ RSpec.describe Genericode do
         it "performs a round-trip conversion" do
           parsed = Genericode::CodeList.from_json(json_string)
           generated = Genericode::CodeList.to_json(parsed)
-          puts parsed.to_json(pretty: true)
           reparsed = Genericode::CodeList.from_json(generated)
 
           expect(reparsed.identification.short_name.content).to eq(parsed.identification.short_name.content)
