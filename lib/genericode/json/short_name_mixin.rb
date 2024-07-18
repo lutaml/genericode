@@ -6,7 +6,7 @@ module Genericode
       end
 
       def short_name_to_json(model, doc)
-        doc["short_name"] = model.short_name.content
+        doc["ShortName"] = model.short_name.content unless model.short_name.nil?
       end
     end
   end
