@@ -44,9 +44,14 @@ RSpec.describe Genericode do
           generated = Genericode::CodeList.to_json(parsed)
           reparsed = Genericode::CodeList.from_json(generated)
 
+          original_to_test = JSON.parse(json_string).to_json
+          reparsed_to_test = JSON.parse(reparsed.to_json).to_json
+
           expect(reparsed.identification.short_name.content).to eq(parsed.identification.short_name.content)
           expect(reparsed.column_set.column.size).to eq(parsed.column_set.column.size)
           expect(reparsed.simple_code_list.row.size).to eq(parsed.simple_code_list.row.size)
+
+          expect(reparsed_to_test).to eq(original_to_test)
         end
       end
     end
