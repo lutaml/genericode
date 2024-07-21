@@ -15,6 +15,12 @@ module Genericode
       map "AppInfo", to: :app_info
     end
 
+    def self.of_json(hash, **)
+      hash = { "AppInfo" => hash } if hash.any?
+
+      super
+    end
+
     xml do
       root "Annotation"
       namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
