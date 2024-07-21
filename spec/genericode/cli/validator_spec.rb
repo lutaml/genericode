@@ -9,7 +9,7 @@ RSpec.describe Genericode::Cli::Validator do
       <<~XML
         <CodeList>
           <ColumnSet>
-            <Column id="code">
+            <Column Id="code">
               <ShortName>Code</ShortName>
             </Column>
           </ColumnSet>

@@ -9,10 +9,10 @@ RSpec.describe Genericode::Cli::CodeLookup do
       <<~XML
         <CodeList>
           <ColumnSet>
-            <Column id="code">
+            <Column Id="code">
               <ShortName>Code</ShortName>
             </Column>
-            <Column id="name">
+            <Column Id="name">
               <ShortName>Name</ShortName>
             </Column>
           </ColumnSet>
@@ -36,19 +36,19 @@ RSpec.describe Genericode::Cli::CodeLookup do
     end
 
     it "looks up a code successfully" do
-      expect(Genericode::Cli::CodeLookup.lookup("file.gc", "column_set/Code")).to be_a(Genericode::Column)
+      expect(Genericode::Cli::CodeLookup.lookup("file.gc", "code:Code1")).to eq("Code: Code1\nName: Name1")
     end
 
     it "looks up a name successfully" do
-      expect(Genericode::Cli::CodeLookup.lookup("file.gc", "column_set/Name")).to be_a(Genericode::Column)
+      expect(Genericode::Cli::CodeLookup.lookup("file.gc", "name:Name1")).to eq("Code: Code1\nName: Name1")
     end
 
     it "looks up a simple value successfully" do
-      expect(Genericode::Cli::CodeLookup.lookup("file.gc", "simple_code_list/0/value/0/simple_value/content")).to eq("Code1")
+      expect(Genericode::Cli::CodeLookup.lookup("file.gc", "code:Code1>name")).to eq("Name1")
     end
 
     it "raises an error for invalid path" do
-      expect { Genericode::Cli::CodeLookup.lookup("file.gc", "invalid/path") }.to raise_error(Genericode::Error, "Path not found: invalid")
+      expect { Genericode::Cli::CodeLookup.lookup("file.gc", "invalid:path") }.to raise_error(Genericode::Error, "Column not found: invalid")
     end
   end
 end

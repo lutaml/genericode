@@ -103,7 +103,7 @@ RSpec.describe Genericode::CodeList do
       invalid_code_list = valid_code_list.dup
       invalid_code_list.column_set = invalid_column_set
       result = invalid_code_list.validate_verbose
-      expect(result).to include(hash_including(code: "MISSING_CODE_COLUMN"))
+      expect(result).to include(hash_including(code: "INVALID_COLUMN_REF"))
     end
 
     it "reports duplicate code values" do
@@ -114,7 +114,7 @@ RSpec.describe Genericode::CodeList do
       invalid_code_list = valid_code_list.dup
       invalid_code_list.simple_code_list = invalid_simple_code_list
       result = invalid_code_list.validate_verbose
-      expect(result).to include(hash_including(code: "DUPLICATE_CODE_VALUES"))
+      expect(result).to include(hash_including(code: "DUPLICATE_VALUES"))
     end
 
     it "reports missing required values" do
@@ -139,7 +139,6 @@ RSpec.describe Genericode::CodeList do
     end
   end
 
-  # New conversion tests
   describe "conversion between XML and JSON" do
     xml_fixtures_dir = File.join(__dir__, "..", "fixtures", "xml", "standard")
     json_fixtures_dir = File.join(__dir__, "..", "fixtures", "json", "standard")
@@ -152,7 +151,7 @@ RSpec.describe Genericode::CodeList do
         xml_content = File.read(xml_file)
         json_content = File.read(json_file)
 
-        xit "converts XML to JSON correctly" do
+        it "converts XML to JSON correctly" do
           code_list = described_class.from_xml(xml_content)
           generated_json = JSON.parse(code_list.to_json)
           expected_json = JSON.parse(json_content)
@@ -160,10 +159,18 @@ RSpec.describe Genericode::CodeList do
           expect(generated_json).to eq(expected_json)
         end
 
-        xit "converts JSON to XML correctly" do
+        it "converts JSON to XML correctly" do
           code_list = described_class.from_json(json_content)
-          generated_xml = code_list.to_xml
-          expected_xml = described_class.from_xml(xml_content).to_xml
+          generated_xml = code_list.to_xml(
+            pretty: true,
+            declaration: true,
+            encoding: "utf-8",
+          )
+          expected_xml = described_class.from_xml(xml_content).to_xml(
+            pretty: true,
+            declaration: true,
+            encoding: "utf-8",
+          )
 
           expect(generated_xml).to eq(expected_xml)
         end
@@ -175,8 +182,6 @@ RSpec.describe Genericode::CodeList do
           expect(xml_code_list.identification.short_name.content).to eq(json_code_list.identification.short_name.content)
           expect(xml_code_list.column_set.column.size).to eq(json_code_list.column_set.column.size)
           expect(xml_code_list.simple_code_list.row.size).to eq(json_code_list.simple_code_list.row.size)
-
-          # Add more attribute comparisons as needed
         end
       end
     end

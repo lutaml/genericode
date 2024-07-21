@@ -3,17 +3,20 @@
 require "shale"
 
 require_relative "annotation"
+require_relative "json/canonical_uri_mixin"
 
 module Genericode
   class CodeListRef < Shale::Mapper
+    include Json::CanonicalUriMixin
+
     attribute :annotation, Annotation
-    attribute :canonical_uri, Shale::Type::String
+    attribute :canonical_uri, CanonicalUri
     attribute :canonical_version_uri, Shale::Type::String
     attribute :location_uri, Shale::Type::String, collection: true
 
     json do
       map "Annotation", to: :annotation
-      map "CanonicalUri", to: :canonical_uri
+      map "CanonicalUri", to: :canonical_uri, using: { from: :canonical_uri_from_json, to: :canonical_uri_to_json }
       map "CanonicalVersionUri", to: :canonical_version_uri
       map "LocationUri", to: :location_uri
     end

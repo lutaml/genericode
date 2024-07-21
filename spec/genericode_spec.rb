@@ -66,7 +66,7 @@ RSpec.describe Genericode do
           parsed = Genericode::CodeList.from_json(json_string)
           generated = Genericode::CodeList.to_json(parsed)
           reparsed = Genericode::CodeList.from_json(generated)
-          reparsed_to_test = reparsed.to_json(except: [:annotation])
+          reparsed_to_test = JSON.parse(reparsed.to_json(except: [:annotation])).to_json
 
           expect(reparsed_to_test).to eq(original_to_test)
         end

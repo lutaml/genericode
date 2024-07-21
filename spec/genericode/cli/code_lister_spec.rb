@@ -1,5 +1,3 @@
-# spec/genericode/code_lister_spec.rb
-
 require "spec_helper"
 require_relative "../../../lib/genericode/cli/code_lister"
 
@@ -9,7 +7,7 @@ RSpec.describe Genericode::Cli::CodeLister do
       <<~XML
         <CodeList>
           <ColumnSet>
-            <Column id="code">
+            <Column Id="code">
               <ShortName>Code</ShortName>
             </Column>
           </ColumnSet>
@@ -33,29 +31,45 @@ RSpec.describe Genericode::Cli::CodeLister do
       allow(File).to receive(:read).and_return(valid_xml)
       allow(Genericode::CodeList).to receive(:from_xml).and_call_original
 
-      expect(Genericode::Cli::CodeLister.list_codes("valid.gc")).to eq(["Code1", "Code2"])
+      expect(Genericode::Cli::CodeLister.list_codes("valid.gc")).to eq("Code\nCode1\nCode2")
     end
 
-    it "raises an error when no Code column is found" do
-      xml_without_code_column = '<CodeList><ColumnSet><Column id="other"><ShortName>Other</ShortName></Column></ColumnSet><SimpleCodeList></SimpleCodeList></CodeList>'
-      allow(File).to receive(:read).and_return(xml_without_code_column)
+    it "raises an error when an invalid ColumnRef is found" do
+      xml_with_invalid_column_ref = <<~XML
+        <CodeList>
+          <ColumnSet>
+            <Column Id="code">
+              <ShortName>Code</ShortName>
+            </Column>
+          </ColumnSet>
+          <SimpleCodeList>
+            <Row>
+              <Value ColumnRef="invalid">
+                <SimpleValue>Code1</SimpleValue>
+              </Value>
+            </Row>
+          </SimpleCodeList>
+        </CodeList>
+      XML
+      allow(File).to receive(:read).and_return(xml_with_invalid_column_ref)
       allow(Genericode::CodeList).to receive(:from_xml).and_call_original
 
-      expect { Genericode::Cli::CodeLister.list_codes("invalid.gc") }.to raise_error(Genericode::Error, "No 'Code' column found")
+      expect { Genericode::Cli::CodeLister.list_codes("invalid.gc") }.to raise_error(Genericode::Error, /INVALID_COLUMN_REF: Invalid ColumnRef 'invalid' in row 1/)
     end
 
     it "raises an error when a code value is invalid" do
       invalid_xml = <<~XML
         <CodeList>
           <ColumnSet>
-            <Column id="code">
+            <Column Id="code">
               <ShortName>Code</ShortName>
+              <Data Type="integer"/>
             </Column>
           </ColumnSet>
           <SimpleCodeList>
             <Row>
               <Value ColumnRef="code">
-                <ComplexValue>Invalid</ComplexValue>
+                <SimpleValue>Invalid</SimpleValue>
               </Value>
             </Row>
           </SimpleCodeList>
@@ -64,7 +78,7 @@ RSpec.describe Genericode::Cli::CodeLister do
       allow(File).to receive(:read).and_return(invalid_xml)
       allow(Genericode::CodeList).to receive(:from_xml).and_call_original
 
-      expect { Genericode::Cli::CodeLister.list_codes("invalid.gc") }.to raise_error(Genericode::Error, /Invalid code value for row/)
+      expect { Genericode::Cli::CodeLister.list_codes("invalid.gc") }.to raise_error(Genericode::Error, /INVALID_DATA_TYPE: Invalid data type for column 'Code' in row 1/)
     end
   end
 end
