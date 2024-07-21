@@ -9,9 +9,9 @@ module Genericode
     attribute :lang, Shale::Type::String
 
     json do
-      map "_", to: :content
       map "Identifier", to: :identifier
       map "lang", to: :lang
+      map "_", to: :content
     end
 
     xml do

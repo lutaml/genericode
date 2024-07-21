@@ -9,9 +9,19 @@ module Genericode
     attribute :lang, Shale::Type::String
 
     json do
-      map "_", to: :content
       map "Identifier", to: :identifier
-      map "lang", to: :lang
+      map "http://www.w3.org/XML/1998/namespace", to: :lang, using: { from: :lang_from_json, to: :lang_to_json }
+      map "_", to: :content
+    end
+
+    def lang_from_json(model, value)
+      model.lang = value["lang"]
+    end
+
+    def lang_to_json(model, doc)
+      return if model.lang.nil?
+
+      doc["http://www.w3.org/XML/1998/namespace"] = { "lang" => model.lang }
     end
 
     xml do

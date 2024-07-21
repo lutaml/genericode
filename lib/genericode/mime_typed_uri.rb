@@ -8,8 +8,8 @@ module Genericode
     attribute :mime_type, Shale::Type::String
 
     json do
-      map "_", to: :content
       map "MimeType", to: :mime_type
+      map "_", to: :content
     end
 
     xml do

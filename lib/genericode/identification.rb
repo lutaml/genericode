@@ -7,6 +7,7 @@ require_relative "long_name"
 require_relative "mime_typed_uri"
 require_relative "short_name"
 require_relative "json/short_name_mixin"
+require_relative "utils"
 
 module Genericode
   class Identification < Shale::Mapper
@@ -23,13 +24,45 @@ module Genericode
 
     json do
       map "ShortName", to: :short_name, using: { from: :short_name_from_json, to: :short_name_to_json }
-      map "LongName", to: :long_name
+      map "LongName", to: :long_name, using: { from: :long_name_from_json, to: :long_name_to_json }
       map "Version", to: :version
       map "CanonicalUri", to: :canonical_uri
       map "CanonicalVersionUri", to: :canonical_version_uri
-      map "LocationUri", to: :location_uri
-      map "AlternateFormatLocationUri", to: :alternate_format_location_uri
+      map "LocationUri", to: :location_uri, using: { from: :location_uri_from_json, to: :location_uri_to_json }
+      map "AlternateFormatLocationUri", to: :alternate_format_location_uri,
+                                        using: { from: :alternate_format_location_uri_from_json,
+                                                 to: :alternate_format_location_uri_to_json }
       map "Agency", to: :agency
+    end
+
+    def long_name_from_json(model, value)
+      model.long_name = LongName.of_json(value)
+    end
+
+    def long_name_to_json(model, doc)
+      return if model.long_name.empty?
+
+      doc["LongName"] = LongName.as_json(model.long_name)
+    end
+
+    def location_uri_from_json(model, value)
+      model.location_uri = Shale::Type::String.of_json(Utils.array_wrap(value))
+    end
+
+    def location_uri_to_json(model, doc)
+      return if model.location_uri.empty?
+
+      doc["LocationUri"] = Shale::Type::String.as_json(Utils.one_or_all(model.location_uri))
+    end
+
+    def alternate_format_location_uri_from_json(model, value)
+      model.alternate_format_location_uri = MimeTypedUri.of_json(Utils.array_wrap(value))
+    end
+
+    def alternate_format_location_uri_to_json(model, doc)
+      return if model.alternate_format_location_uri.empty?
+
+      doc["AlternateFormatLocationUri"] = MimeTypedUri.as_json(Utils.one_or_all(model.alternate_format_location_uri))
     end
 
     xml do

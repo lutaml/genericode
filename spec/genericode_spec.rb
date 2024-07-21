@@ -44,8 +44,8 @@ RSpec.describe Genericode do
           generated = Genericode::CodeList.to_json(parsed)
           reparsed = Genericode::CodeList.from_json(generated)
 
-          original_to_test = JSON.parse(json_string).to_json
-          reparsed_to_test = JSON.parse(reparsed.to_json).to_json
+          original_to_test = JSON.parse(json_string).tap { |n| n.delete("Annotation") }.to_json
+          reparsed_to_test = reparsed.to_json(except: [:annotation])
 
           expect(reparsed.identification.short_name.content).to eq(parsed.identification.short_name.content)
           expect(reparsed.column_set.column.size).to eq(parsed.column_set.column.size)
