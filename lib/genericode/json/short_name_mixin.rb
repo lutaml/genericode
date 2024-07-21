@@ -4,7 +4,7 @@ module Genericode
   module Json
     module ShortNameMixin
       def short_name_from_json(model, value)
-        model.short_name = ShortName.new(content: value)
+        model.short_name = ShortName.new(content: value) if value
       end
 
       def short_name_to_json(model, doc)
