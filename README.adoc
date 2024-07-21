@@ -58,6 +58,37 @@ gc.simple_code_list.row.map(&:value).flatten.map(&:simple_value).map(&:content)
 # => ["appellate", "bankruptcy", "citation", "civil", "criminal", "domestic", "juvenile"]
 ----
 
+== Tests
+
+The `spec/fixtures` folder tests the library against known examples of Genericode.
+
+Including:
+
+`spec/fixtures/json`:: JSON examples.
+
+`spec/fixtures/json/standard/*.gcj`:: Genericode JSON examples from the OASIS
+genericode standard 1.0
+https://github.com/oasis-tcs/codelist-genericode/tree/genericode-v1.0-os/json-example[(GitHub)].
+
+`spec/fixtures/xml`:: XML examples.
+
+`spec/fixtures/xml/standard/*.gc`:: Genericode XML examples from the OASIS
+genericode standard 1.0
+https://github.com/oasis-tcs/codelist-genericode/tree/genericode-v1.0-os/xml[(GitHub)].
+
+`spec/fixtures/xml/niem/*.gc`:: Genericode XML examples from the
+https://reference.niem.gov/niem/specification/code-lists/1.0beta1/niem-code-lists-1.0beta1-2016-03-15.html[NIEM Code Lists Specification, Version 1.0beta1].
+https://github.com/NIEM/NIEM-Code-Lists-Spec/blob/master/example/make-model/make-model.gc[(GitHub)]
++
+NOTE: A modification was made to remove unrelated namespaces to allow tests to
+pass.
+
+`spec/fixtures/xml/ubl/*.gc`:: Genericode XML examples from the
+https://github.com/oasis-tcs/ubl[OASIS UBL 2.3 repository] (branch `ubl-2.5-csd01`),
+https://github.com/oasis-tcs/ubl/tree/ubl-2.5-csd01/os-UBL-2.3/cl/gc/default[`os-UBL-2.3/cl/gc/default`].
+
+NOTE: The "OASIS genericode standard 1.0" refers to the
+https://docs.oasis-open.org/codelist/genericode/v1.0/os/genericode-v1.0-os.html#S-LONGNAME-COMPLEX-TYPE["OASIS Code List Representation (genericode) Version 1.0"]
 
 == License
 
