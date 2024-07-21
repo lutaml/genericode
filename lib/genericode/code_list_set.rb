@@ -33,5 +33,44 @@ module Genericode
       map_element "CodeListSet", to: :code_list_set, prefix: nil, namespace: nil
       map_element "CodeListSetRef", to: :code_list_set_ref, prefix: nil, namespace: nil
     end
+
+    def validate_verbose
+      errors = []
+
+      # Rule 47: CodeListSet reference validation
+      code_list_set_ref&.each do |ref|
+        unless valid_uri?(ref.canonical_uri) && valid_uri?(ref.canonical_version_uri)
+          errors << { code: "INVALID_CODELIST_SET_REF", message: "Invalid CodeListSet reference URI" }
+        end
+      end
+
+      # Rule 48-51: URI validations
+      [canonical_uri, canonical_version_uri].each do |uri|
+        unless valid_uri?(uri)
+          errors << { code: "INVALID_URI", message: "Invalid URI: #{uri}" }
+        end
+      end
+
+      # Rule 52-53: LocationUri validation
+      location_uri&.each do |uri|
+        unless valid_genericode_uri?(uri)
+          errors << { code: "INVALID_LOCATION_URI", message: "Invalid LocationUri: #{uri}" }
+        end
+      end
+
+      errors
+    end
+
+    private
+
+    def valid_uri?(uri)
+      uri =~ URI::DEFAULT_PARSER.make_regexp
+    end
+
+    def valid_genericode_uri?(uri)
+      # Add logic to check if the URI points to a valid genericode document
+      # This might involve making an HTTP request or checking file extensions
+      uri.end_with?(".gc", ".gcj")
+    end
   end
 end

@@ -48,7 +48,7 @@ module Genericode
       option :output, type: :string, desc: "Output file path (default: stdout)"
 
       def list_codes(file)
-        format = options[:format].to_sym
+        format = (options[:format] || "tsv").to_sym
         result = CodeLister.list_codes(file, format: format)
 
         if options[:output]

@@ -11,4 +11,9 @@ require_relative "genericode/code_list"
 
 module Genericode
   class Error < StandardError; end
+
+  def self.validate(file_path)
+    code_list = CodeList.from_file(file_path)
+    code_list.validate_verbose
+  end
 end

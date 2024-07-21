@@ -32,7 +32,7 @@ RSpec.describe Genericode::Cli::Commands do
 
   describe "#list_codes" do
     it "lists codes successfully" do
-      allow(Genericode::Cli::CodeLister).to receive(:list_codes).and_return(["Code1", "Code2"])
+      allow(Genericode::Cli::CodeLister).to receive(:list_codes).and_return("Code1\nCode2")
       expect { cli.list_codes("file.gc") }.to output("Code1\nCode2\n").to_stdout
     end
 

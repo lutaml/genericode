@@ -19,5 +19,10 @@ module Genericode
       map_content to: :content
       map_attribute "lang", to: :lang, prefix: "xml", namespace: "http://www.w3.org/XML/1998/namespace"
     end
+
+    # Rule 39: Must not contain whitespace characters
+    def valid?
+      !content.match(/\s/)
+    end
   end
 end

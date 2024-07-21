@@ -1,4 +1,3 @@
-# lib/genericode/cli/code_lister.rb
 require_relative "../code_list"
 require "tabulo"
 require "csv"
@@ -6,53 +5,62 @@ require "csv"
 module Genericode
   module Cli
     class CodeLister
-      def self.list_codes(file_path, format: :tsv)
-        code_list = CodeList.from_file(file_path)
+      class << self
+        def list_codes(file_path, format: :tsv)
+          code_list = CodeList.from_file(file_path)
 
-        case format
-        when :tsv
-          list_tsv(code_list)
-        when :table
-          list_table(code_list)
-        else
-          raise Error, "Unknown format: #{format}"
-        end
-      end
-
-      private
-
-      def self.list_tsv(code_list)
-        columns = code_list.column_set.column
-        rows = code_list.simple_code_list.row
-
-        CSV.generate(col_sep: "\t") do |csv|
-          # Add header row
-          csv << columns.map { |col| col.short_name.content }
-
-          # Add data rows
-          rows.each do |row|
-            csv << columns.map do |col|
-              value = row.value.find { |v| v.column_ref == col.id }
-              value&.simple_value&.content || ""
-            end
+          # Validate data types
+          code_list.validate_verbose.each do |error|
+            raise Error, "#{error[:code]}: #{error[:message]}" if error[:code] == "INVALID_DATA_TYPE"
           end
-        end
-      end
 
-      def self.list_table(code_list)
-        columns = code_list.column_set.column
-        rows = code_list.simple_code_list.row
+          # Ensure valid ColumnRefs
+          code_list.validate_verbose.each do |error|
+            raise Error, "#{error[:code]}: #{error[:message]}" if error[:code] == "INVALID_COLUMN_REF"
+          end
 
-        table = Tabulo::Table.new(rows) do |t|
-          columns.each do |column|
-            t.add_column(column.short_name.content) do |row|
-              value = row.value.find { |v| v.column_ref == column.id }
-              value&.simple_value&.content || ""
-            end
+          case format
+          when :tsv
+            list_tsv(code_list)
+          when :table
+            list_table(code_list)
+          else
+            raise Error, "Unknown format: #{format}"
           end
         end
 
-        table.to_s
+        private
+
+        def list_tsv(code_list)
+          columns = code_list.column_set.column
+          rows = code_list.simple_code_list.row
+
+          CSV.generate(col_sep: "\t") do |csv|
+            csv << columns.map { |col| col.short_name.content }
+            rows.each do |row|
+              csv << columns.map do |col|
+                value = row.value.find { |v| v.column_ref == col.id }
+                value&.simple_value&.content || ""
+              end
+            end
+          end.strip.encode("UTF-8")
+        end
+
+        def list_table(code_list)
+          columns = code_list.column_set.column
+          rows = code_list.simple_code_list.row
+
+          table = Tabulo::Table.new(rows) do |t|
+            columns.each do |column|
+              t.add_column(column.short_name.content) do |row|
+                value = row.value.find { |v| v.column_ref == column.id }
+                value&.simple_value&.content || ""
+              end
+            end
+          end
+
+          table.to_s
+        end
       end
     end
   end
