@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Genericode
   module Json
     module ShortNameMixin
@@ -6,7 +8,9 @@ module Genericode
       end
 
       def short_name_to_json(model, doc)
-        doc["ShortName"] = model.short_name.content unless model.short_name.nil?
+        return if model.short_name.nil?
+
+        doc["ShortName"] = model.short_name.content
       end
     end
   end

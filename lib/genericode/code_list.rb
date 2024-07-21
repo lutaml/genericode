@@ -27,37 +27,19 @@ module Genericode
     end
 
     def column_set_from_json(model, value)
-      columns = value.map do |x|
-        # This is a really bad way of doing it, but we want to reuse the
-        # JSON mappings. If there was a `from_hash(x, mappings: :json)` then
-        # it would work.
-        Column.from_json(x.to_json)
-      end
-
-      model.column_set = ColumnSet.new(column: columns)
+      model.column_set = ColumnSet.of_json({ "Column" => value })
     end
 
     def column_set_to_json(model, doc)
-      doc["Columns"] = model.column_set.column.map do |col|
-        Shale.json_adapter.load(col.to_json)
-      end
+      doc["Columns"] = Column.as_json(model.column_set.column)
     end
 
     def key_from_json(model, value)
-      keys = value.map do |key|
-        # This is a really bad way of doing it, but we want to reuse the
-        # JSON mappings. If there was a `from_hash(x, mappings: :json)` then
-        # it would work.
-        Key.from_json(key.to_json)
-      end
-
-      model.column_set.key = keys
+      model.column_set.key = Key.of_json(value)
     end
 
     def key_to_json(model, doc)
-      doc["Keys"] = model.column_set.key.map do |key|
-        Shale.json_adapter.load(key.to_json)
-      end
+      doc["Keys"] = Key.as_json(model.column_set.key)
     end
 
     def simple_code_list_from_json(model, value)

@@ -7,10 +7,12 @@ require_relative "data"
 require_relative "long_name"
 require_relative "short_name"
 require_relative "json/short_name_mixin"
+require_relative "utils"
 
 module Genericode
   class Column < Shale::Mapper
     include Json::ShortNameMixin
+
     attribute :id, Shale::Type::String
     attribute :use, Shale::Type::String
     attribute :annotation, Annotation
@@ -21,14 +23,33 @@ module Genericode
     attribute :data, Data
 
     json do
+      map "Required", to: :use, using: { from: :use_from_json, to: :use_to_json }
       map "Id", to: :id
-      map "Use", to: :use
       map "Annotation", to: :annotation
       map "ShortName", to: :short_name, using: { from: :short_name_from_json, to: :short_name_to_json }
-      map "LongName", to: :long_name
+      map "LongName", to: :long_name, using: { from: :long_name_from_json, to: :long_name_to_json }
       map "CanonicalUri", to: :canonical_uri
       map "CanonicalVersionUri", to: :canonical_version_uri
-      map "Data", to: :data
+      map "DataType", to: :type, receiver: :data
+      map "DataLanguage", to: :lang, receiver: :data
+    end
+
+    def use_from_json(model, value)
+      model.use = value == "true" ? "required" : "optional"
+    end
+
+    def use_to_json(model, doc)
+      doc["Required"] = "true" if model.use == "required"
+    end
+
+    def long_name_from_json(model, value)
+      model.long_name = LongName.of_json(Utils.array_wrap(value))
+    end
+
+    def long_name_to_json(model, doc)
+      return if model.long_name.empty?
+
+      doc["LongName"] = LongName.as_json(Utils.one_or_all(model.long_name))
     end
 
     xml do

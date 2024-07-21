@@ -7,10 +7,12 @@ require_relative "key_column_ref"
 require_relative "long_name"
 require_relative "short_name"
 require_relative "json/short_name_mixin"
+require_relative "utils"
 
 module Genericode
   class Key < Shale::Mapper
     include Json::ShortNameMixin
+
     attribute :id, Shale::Type::String
     attribute :annotation, Annotation
     attribute :short_name, ShortName
@@ -23,24 +25,28 @@ module Genericode
       map "Id", to: :id
       map "Annotation", to: :annotation
       map "ShortName", to: :short_name, using: { from: :short_name_from_json, to: :short_name_to_json }
-      map "LongName", to: :long_name
+      map "LongName", to: :long_name, using: { from: :long_name_from_json, to: :long_name_to_json }
       map "CanonicalUri", to: :canonical_uri
       map "CanonicalVersionUri", to: :canonical_version_uri
       map "ColumnRef", to: :column_ref, using: { from: :column_ref_from_json, to: :column_ref_to_json }
     end
 
-    # TODO: notice that the JSON format only allows one value!
-    def column_ref_from_json(model, value)
-      value = [value] if value.is_a?(String)
-
-      model.column_ref = value.map do |kcr|
-        KeyColumnRef.new(ref: kcr)
-      end
+    def long_name_from_json(model, value)
+      model.long_name = LongName.of_json(value)
     end
 
-    # TODO: notice that the JSON format only allows one value!
+    def long_name_to_json(model, doc)
+      return if model.long_name.empty?
+
+      doc["LongName"] = LongName.as_json(model.long_name)
+    end
+
+    def column_ref_from_json(model, value)
+      model.column_ref = Utils.array_wrap(value).map { |n| KeyColumnRef.new(ref: n) }
+    end
+
     def column_ref_to_json(model, doc)
-      doc["ColumnRef"] = model.column_ref.map(&:ref).first
+      doc["ColumnRef"] = Utils.one_or_all(model.column_ref.map(&:ref))
     end
 
     xml do
