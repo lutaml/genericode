@@ -4,7 +4,6 @@ image:https://img.shields.io/gem/v/genericode.svg["Gem Version", link="https://r
 image:https://github.com/lutaml/genericode/workflows/rake/badge.svg["Build Status", link="https://github.com/lutaml/genericode/actions?workflow=rake"]
 image:https://codeclimate.com/github/lutaml/genericode/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/lutaml/genericode"]
 
-
 == Purpose
 
 This Ruby gem implements the
@@ -17,9 +16,197 @@ including:
 * Genericode JSON: `*.gcj`
 
 
-== Usage
+== Installation
 
-=== Ruby API
+To install the genericode gem, use one of the following methods.
+
+Add this line to your application's Gemfile:
+
+[source,ruby]
+----
+gem 'genericode'
+----
+
+Then execute:
+
+[source,sh]
+----
+$ bundle install
+----
+
+Or install it directly using:
+
+[source,sh]
+----
+$ gem install genericode
+----
+
+After installation, you can start using the genericode gem in your Ruby projects
+or via the command-line interface.
+
+
+== Genericode path syntax
+
+The "Genericode path" is a simplified syntax used to navigate through and
+extract data from Genericode structures. It's designed to be intuitive and
+flexible.
+
+=== Basic syntax
+
+The basic syntax uses a combination of column names and values to uniquely
+identify a row and retrieve associated data:
+
+----
+column_name:value
+----
+
+This will return all data associated with the row where `column_name` has the
+specified `value`.
+
+=== Multiple column lookup
+
+To narrow down the search using multiple columns:
+
+----
+column1:value1,column2:value2
+----
+
+This will return data for the row where `column1` has `value1` AND `column2` has
+`value2`.
+
+=== Specific column retrieval
+
+To retrieve the value of a specific column for a given row:
+
+----
+column1:value1>target_column
+----
+
+This will return the value of `target_column` for the row where `column1` has
+`value1`.
+
+
+== CLI commands
+
+The Genericode gem provides a command-line interface (CLI) with the following
+commands:
+
+=== Convert
+
+Converts between Genericode XML and JSON formats.
+
+Usage:
+[source,sh]
+----
+$ genericode convert INPUT_FILE OUTPUT_FILE
+----
+
+Example:
+[source,sh]
+----
+$ genericode convert input.gc output.gcj
+----
+
+This command is useful when you need to convert between XML and JSON
+representations of your code lists.
+
+=== Validate
+
+Validates a Genericode file.
+
+Usage:
+[source,sh]
+----
+$ genericode validate FILE
+----
+
+Example:
+[source,sh]
+----
+$ genericode validate codelist.gc
+----
+
+Use this command to check if your Genericode file is valid according to the
+specification.
+
+=== List codes
+
+Lists all codes and their associated data in a Genericode file.
+
+Usage:
+[source,sh]
+----
+$ genericode list_codes FILE [--format=FORMAT] [--output=FILE]
+----
+
+Example:
+[source,sh]
+----
+$ genericode list_codes country_codes.gc
+$ genericode list_codes country_codes.gc --format=table
+$ genericode list_codes country_codes.gc --format=tsv --output=codes.tsv
+----
+
+This command displays all the data in the Genericode file. By default, it
+outputs in TSV (Tab-Separated Values) format. You can specify the `--format`
+option to choose between `tsv` (default) and `table` formats. Use the `--output`
+option to save the result to a file.
+
+=== Lookup
+
+Looks up specific data in a Genericode file using the simplified Genericode path
+syntax.
+
+Usage:
+[source,sh]
+----
+$ genericode lookup FILE PATH
+----
+
+Examples:
+[source,sh]
+----
+$ genericode lookup country_codes.gc "code:US"
+$ genericode lookup country_codes.gc "code:FR>name"
+$ genericode lookup currency_codes.gc "alpha_code:USD,numeric_code:840>name"
+----
+
+Use this command to extract specific information from a Genericode file using
+the simplified path syntax. The syntax allows you to:
+
+* Retrieve all data for a specific code: `column:value`
+* Get a specific column value for a given code: `column:value>target_column`
+* Use multiple columns to narrow down the search: `column1:value1,column2:value2`
+
+To use these CLI commands, ensure that the Genericode gem is installed and
+available in your system's PATH.
+
+== Ruby API
+
+[source,ruby]
+----
+require 'genericode'
+
+# Load a Genericode file
+gc = Genericode::CodeList.from_file("country_codes.gc")
+
+# Lookup examples
+gc.lookup("code:US")
+# => {"code"=>"US", "name"=>"United States", ...}
+
+gc.lookup("code:FR>name")
+# => "France"
+
+gc.lookup("alpha_code:USD,numeric_code:840>name")
+# => "US Dollar"
+
+# Other API usage remains the same
+gc.identification.short_name.content
+# => "CountryCodes"
+
+gc.simple_code_list.row.map(&:value).flatten.map(&:simple_value).map(&:content)
+# => ["US", "United States", "FR", "France", ...]
+----
 
 [source,ruby]
 ----
@@ -39,8 +226,6 @@ gc.identification.short_name.version
 gc.simple_code_list.row.map(&:value).flatten.map(&:simple_value).map(&:content)
 # => ["appellate", "bankruptcy", "citation", "civil", "criminal", "domestic", "juvenile"]
 ----
-
-
 
 [source,ruby]
 ----
@@ -93,3 +278,5 @@ https://docs.oasis-open.org/codelist/genericode/v1.0/os/genericode-v1.0-os.html#
 == License
 
 Copyright Ribose.
+
+BSD-3 license.
