@@ -17,7 +17,7 @@ module Genericode
     include Json::ShortNameMixin
 
     attribute :id, Shale::Type::String
-    attribute :use, Shale::Type::String
+    attribute :use, Shale::Type::String, default: -> { "optional" }
     attribute :annotation, Annotation
     attribute :short_name, ShortName
     attribute :long_name, LongName, collection: true
