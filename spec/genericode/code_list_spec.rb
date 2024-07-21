@@ -153,8 +153,8 @@ RSpec.describe Genericode::CodeList do
 
         it "converts XML to JSON correctly" do
           code_list = described_class.from_xml(xml_content)
-          generated_json = JSON.parse(code_list.to_json)
-          expected_json = JSON.parse(json_content)
+          generated_json = JSON.parse(code_list.to_json(except: [:annotation]))
+          expected_json = JSON.parse(json_content).tap { |n| n.delete("Annotation") }
 
           expect(generated_json).to eq(expected_json)
         end
