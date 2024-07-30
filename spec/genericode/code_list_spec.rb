@@ -167,6 +167,7 @@ RSpec.describe Genericode::CodeList do
             encoding: "utf-8",
           )
           expected_xml = described_class.from_xml(xml_content).to_xml(
+            except: [:schema_location],
             pretty: true,
             declaration: true,
             encoding: "utf-8",
