@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require "shale"
+require "lutaml/model"
 
 module Genericode
-  class SimpleValue < Shale::Mapper
-    attribute :content, Shale::Type::String
+  class SimpleValue < Lutaml::Model::Serializable
+    attribute :content, :string
 
     json do
       map "_", to: :content

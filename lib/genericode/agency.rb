@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "shale"
+require "lutaml/model"
 
 require_relative "general_identifier"
 require_relative "long_name"
@@ -9,7 +9,7 @@ require_relative "json/short_name_mixin"
 require_relative "utils"
 
 module Genericode
-  class Agency < Shale::Mapper
+  class Agency < Lutaml::Model::Serializable
     include Json::ShortNameMixin
 
     attribute :short_name, ShortName
@@ -17,9 +17,9 @@ module Genericode
     attribute :identifier, GeneralIdentifier, collection: true
 
     json do
-      map "ShortName", to: :short_name, using: { from: :short_name_from_json, to: :short_name_to_json }
-      map "LongName", to: :long_name, using: { from: :long_name_from_json, to: :long_name_to_json }
-      map "Identifier", to: :identifier, using: { from: :identifier_from_json, to: :identifier_to_json }
+      map "ShortName", to: :short_name, with: { from: :short_name_from_json, to: :short_name_to_json }
+      map "LongName", to: :long_name, with: { from: :long_name_from_json, to: :long_name_to_json }
+      map "Identifier", to: :identifier, with: { from: :identifier_from_json, to: :identifier_to_json }
     end
 
     def long_name_from_json(model, value)

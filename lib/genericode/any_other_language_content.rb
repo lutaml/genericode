@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require "shale"
+require "lutaml/model"
 
 module Genericode
-  class AnyOtherLanguageContent < Shale::Mapper
-    attribute :lang, Shale::Type::String
+  class AnyOtherLanguageContent < Lutaml::Model::Serializable
+    attribute :lang, :string
 
     json do
       map "lang", to: :lang

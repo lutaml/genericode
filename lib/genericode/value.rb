@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "shale"
+require "lutaml/model"
 
 require_relative "annotation"
 require_relative "any_other_content"
@@ -8,7 +8,7 @@ require_relative "simple_value"
 require_relative "column_ref"
 
 module Genericode
-  class Value < Shale::Mapper
+  class Value < Lutaml::Model::Serializable
     attribute :column_ref, ColumnRef
     attribute :annotation, Annotation
     attribute :simple_value, SimpleValue

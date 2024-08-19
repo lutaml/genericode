@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "shale"
+require "lutaml/model"
 
 require_relative "annotation"
 require_relative "code_list_ref"
@@ -8,7 +8,7 @@ require_relative "code_list_set_ref"
 require_relative "identification"
 
 module Genericode
-  class CodeListSet < Shale::Mapper
+  class CodeListSet < Lutaml::Model::Serializable
     attribute :annotation, Annotation
     attribute :identification, Identification
     attribute :code_list_ref, CodeListRef, collection: true

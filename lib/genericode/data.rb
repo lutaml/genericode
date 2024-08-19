@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-require "shale"
+require "lutaml/model"
 
 require_relative "annotation"
 require_relative "datatype_facet"
 
 module Genericode
-  class Data < Shale::Mapper
-    attribute :type, Shale::Type::String
-    attribute :datatype_library, Shale::Type::String
-    attribute :lang, Shale::Type::String
+  class Data < Lutaml::Model::Serializable
+    attribute :type, :string
+    attribute :datatype_library, :string
+    attribute :lang, :string
     attribute :annotation, Annotation
     attribute :parameter, DatatypeFacet, collection: true
 

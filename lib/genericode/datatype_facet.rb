@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
-require "shale"
+require "lutaml/model"
 require_relative "json/short_name_mixin"
 
 module Genericode
-  class DatatypeFacet < Shale::Mapper
+  class DatatypeFacet < Lutaml::Model::Serializable
     include Json::ShortNameMixin
 
-    attribute :content, Shale::Type::String
-    attribute :short_name, Shale::Type::String
-    attribute :long_name, Shale::Type::String
+    attribute :content, :string
+    attribute :short_name, :string
+    attribute :long_name, :string
 
     json do
-      map "ShortName", to: :short_name, using: { from: :short_name_from_json, to: :short_name_to_json }
+      map "ShortName", to: :short_name, with: { from: :short_name_from_json, to: :short_name_to_json }
       map "LongName", to: :long_name
       map "_", to: :content
     end

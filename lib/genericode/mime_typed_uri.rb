@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require "shale"
+require "lutaml/model"
 
 module Genericode
-  class MimeTypedUri < Shale::Mapper
-    attribute :content, Shale::Type::String
-    attribute :mime_type, Shale::Type::String
+  class MimeTypedUri < Lutaml::Model::Serializable
+    attribute :content, :string
+    attribute :mime_type, :string
 
     json do
       map "MimeType", to: :mime_type

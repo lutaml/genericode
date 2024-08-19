@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require "shale"
+require "lutaml/model"
 
 module Genericode
-  class GeneralIdentifier < Shale::Mapper
-    attribute :content, Shale::Type::String
-    attribute :identifier, Shale::Type::String
-    attribute :lang, Shale::Type::String
+  class GeneralIdentifier < Lutaml::Model::Serializable
+    attribute :content, :string
+    attribute :identifier, :string
+    attribute :lang, :string
 
     json do
       map "Identifier", to: :identifier
