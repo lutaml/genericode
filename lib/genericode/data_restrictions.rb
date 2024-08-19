@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require "shale"
+require "lutaml/model"
 
 require_relative "datatype_facet"
 
 module Genericode
-  class DataRestrictions < Shale::Mapper
-    attribute :lang, Shale::Type::String
+  class DataRestrictions < Lutaml::Model::Serializable
+    attribute :lang, :string
     attribute :parameter, DatatypeFacet, collection: true
 
     json do

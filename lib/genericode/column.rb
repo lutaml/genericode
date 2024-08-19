@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "shale"
+require "lutaml/model"
 
 require_relative "annotation"
 require_relative "data"
@@ -12,29 +12,29 @@ require_relative "json/canonical_uri_mixin"
 require_relative "utils"
 
 module Genericode
-  class Column < Shale::Mapper
+  class Column < Lutaml::Model::Serializable
     include Json::CanonicalUriMixin
     include Json::ShortNameMixin
 
-    attribute :id, Shale::Type::String
-    attribute :use, Shale::Type::String, default: -> { "optional" }
+    attribute :id, :string
+    attribute :use, :string, default: -> { "optional" }
     attribute :annotation, Annotation
     attribute :short_name, ShortName
     attribute :long_name, LongName, collection: true
     attribute :canonical_uri, CanonicalUri
-    attribute :canonical_version_uri, Shale::Type::String
+    attribute :canonical_version_uri, :string
     attribute :data, Data
 
     json do
-      map "Required", to: :use, using: { from: :use_from_json, to: :use_to_json }
+      map "Required", to: :use, with: { from: :use_from_json, to: :use_to_json }
       map "Id", to: :id
       map "Annotation", to: :annotation
-      map "ShortName", to: :short_name, using: { from: :short_name_from_json, to: :short_name_to_json }
-      map "LongName", to: :long_name, using: { from: :long_name_from_json, to: :long_name_to_json }
-      map "CanonicalUri", to: :canonical_uri, using: { from: :canonical_uri_from_json, to: :canonical_uri_to_json }
+      map "ShortName", to: :short_name, with: { from: :short_name_from_json, to: :short_name_to_json }
+      map "LongName", to: :long_name, with: { from: :long_name_from_json, to: :long_name_to_json }
+      map "CanonicalUri", to: :canonical_uri, with: { from: :canonical_uri_from_json, to: :canonical_uri_to_json }
       map "CanonicalVersionUri", to: :canonical_version_uri
-      map "DataType", to: :type, receiver: :data
-      map "DataLanguage", to: :lang, receiver: :data
+      map "DataType", to: :type, delegate: :data
+      map "DataLanguage", to: :lang, delegate: :data
     end
 
     def use_from_json(model, value)

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "shale"
+require "lutaml/model"
 
 require_relative "annotation"
 require_relative "column"
@@ -10,8 +10,8 @@ require_relative "key"
 require_relative "key_ref"
 
 module Genericode
-  class ColumnSet < Shale::Mapper
-    attribute :datatype_library, Shale::Type::String
+  class ColumnSet < Lutaml::Model::Serializable
+    attribute :datatype_library, :string
     attribute :annotation, Annotation
     attribute :identification, Identification
     attribute :column, Column, collection: true

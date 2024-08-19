@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-require "shale"
+require "lutaml/model"
 
 require_relative "annotation"
 
 module Genericode
-  class ColumnSetRef < Shale::Mapper
+  class ColumnSetRef < Lutaml::Model::Serializable
     attribute :annotation, Annotation
-    attribute :canonical_version_uri, Shale::Type::String
-    attribute :location_uri, Shale::Type::String, collection: true
+    attribute :canonical_version_uri, :string
+    attribute :location_uri, :string, collection: true
 
     json do
       map "Annotation", to: :annotation

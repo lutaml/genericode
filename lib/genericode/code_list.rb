@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "shale"
+require "lutaml/model"
 require "uri"
 
 require_relative "annotation"
@@ -10,13 +10,13 @@ require_relative "identification"
 require_relative "simple_code_list"
 
 module Genericode
-  class CodeList < Shale::Mapper
+  class CodeList < Lutaml::Model::Serializable
     attribute :annotation, Annotation
     attribute :identification, Identification
     attribute :column_set, ColumnSet
     attribute :column_set_ref, ColumnSetRef
     attribute :simple_code_list, SimpleCodeList
-    attribute :schema_location, Shale::Type::String
+    attribute :schema_location, :string
 
     def self.from_file(file_path)
       content = File.read(file_path)
@@ -32,10 +32,10 @@ module Genericode
     json do
       map "Annotation", to: :annotation
       map "Identification", to: :identification
-      map "Columns", to: :column_set, using: { from: :column_set_from_json, to: :column_set_to_json }
+      map "Columns", to: :column_set, with: { from: :column_set_from_json, to: :column_set_to_json }
       map "ColumnSetRef", to: :column_set_ref
-      map "Keys", to: :key, receiver: :column_set, using: { from: :key_from_json, to: :key_to_json }
-      map "Codes", to: :simple_code_list, using: { from: :simple_code_list_from_json, to: :simple_code_list_to_json }
+      map "Keys", to: :key, delegate: :column_set, with: { from: :key_from_json, to: :key_to_json }
+      map "Codes", to: :simple_code_list, with: { from: :simple_code_list_from_json, to: :simple_code_list_to_json }
     end
 
     def column_set_from_json(model, value)

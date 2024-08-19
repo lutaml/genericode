@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require "shale"
+require "lutaml/model"
 
 require_relative "annotation"
 require_relative "value"
 
 module Genericode
-  class Row < Shale::Mapper
+  class Row < Lutaml::Model::Serializable
     attribute :annotation, Annotation
     attribute :value, Value, collection: true
 

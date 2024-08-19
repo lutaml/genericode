@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-require "shale"
-unless Shale.xml_adapter
-  require "shale/adapter/nokogiri"
-  Shale.xml_adapter = Shale::Adapter::Nokogiri
+require "lutaml/model"
+
+Lutaml::Model::Config.configure do |config|
+  require "lutaml/model/xml_adapter/nokogiri_adapter"
+  config.xml_adapter = Lutaml::Model::XmlAdapter::NokogiriAdapter
 end
 
 require_relative "genericode/version"

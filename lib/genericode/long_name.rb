@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require "shale"
+require "lutaml/model"
 
 module Genericode
-  class LongName < Shale::Mapper
-    attribute :content, Shale::Type::String
-    attribute :identifier, Shale::Type::String
-    attribute :lang, Shale::Type::String
+  class LongName < Lutaml::Model::Serializable
+    attribute :content, :string
+    attribute :identifier, :string
+    attribute :lang, :string
 
     json do
       map "Identifier", to: :identifier
-      map "http://www.w3.org/XML/1998/namespace", to: :lang, using: { from: :lang_from_json, to: :lang_to_json }
+      map "http://www.w3.org/XML/1998/namespace", to: :lang, with: { from: :lang_from_json, to: :lang_to_json }
       map "_", to: :content
     end
 

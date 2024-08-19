@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
-require "shale"
+require "lutaml/model"
 
 require_relative "annotation"
 require_relative "canonical_uri"
 require_relative "json/canonical_uri_mixin"
 
 module Genericode
-  class CodeListSetRef < Shale::Mapper
+  class CodeListSetRef < Lutaml::Model::Serializable
     include Json::CanonicalUriMixin
     attribute :annotation, Annotation
     attribute :canonical_uri, CanonicalUri
-    attribute :canonical_version_uri, Shale::Type::String
-    attribute :location_uri, Shale::Type::String, collection: true
+    attribute :canonical_version_uri, :string
+    attribute :location_uri, :string, collection: true
 
     json do
       map "Annotation", to: :annotation
-      map "CanonicalUri", to: :canonical_uri, using: { from: :canonical_uri_from_json, to: :canonical_uri_to_json }
+      map "CanonicalUri", to: :canonical_uri, with: { from: :canonical_uri_from_json, to: :canonical_uri_to_json }
       map "CanonicalVersionUri", to: :canonical_version_uri
       map "LocationUri", to: :location_uri
     end

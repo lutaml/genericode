@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require "shale"
+require "lutaml/model"
 require "uri"
 
 module Genericode
   # Rule 4: Must be an absolute URI, must not be relative
-  class CanonicalUri < Shale::Mapper
-    attribute :content, Shale::Type::String
+  class CanonicalUri < Lutaml::Model::Serializable
+    attribute :content, :string
 
     xml do
       root "CanonicalUri"

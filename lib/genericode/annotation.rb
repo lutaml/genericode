@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require "shale"
+require "lutaml/model"
 
 require_relative "any_other_content"
 require_relative "any_other_language_content"
 
 module Genericode
-  class Annotation < Shale::Mapper
+  class Annotation < Lutaml::Model::Serializable
     attribute :description, AnyOtherLanguageContent, collection: true
     attribute :app_info, AnyOtherContent
 

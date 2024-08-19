@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require "shale"
+require "lutaml/model"
 
 require_relative "annotation"
 
 module Genericode
-  class KeyRef < Shale::Mapper
-    attribute :id, Shale::Type::String
-    attribute :external_ref, Shale::Type::String
+  class KeyRef < Lutaml::Model::Serializable
+    attribute :id, :string
+    attribute :external_ref, :string
     attribute :annotation, Annotation
-    attribute :canonical_version_uri, Shale::Type::String
-    attribute :location_uri, Shale::Type::String, collection: true
+    attribute :canonical_version_uri, :string
+    attribute :location_uri, :string, collection: true
 
     json do
       map "Id", to: :id

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "shale"
+require "lutaml/model"
 
 require_relative "agency"
 require_relative "long_name"
@@ -12,29 +12,29 @@ require_relative "json/canonical_uri_mixin"
 require_relative "utils"
 
 module Genericode
-  class Identification < Shale::Mapper
+  class Identification < Lutaml::Model::Serializable
     include Json::CanonicalUriMixin
     include Json::ShortNameMixin
 
     attribute :short_name, ShortName
     attribute :long_name, LongName, collection: true
-    attribute :version, Shale::Type::String
+    attribute :version, :string
     attribute :canonical_uri, CanonicalUri
-    attribute :canonical_version_uri, Shale::Type::String
-    attribute :location_uri, Shale::Type::String, collection: true
+    attribute :canonical_version_uri, :string
+    attribute :location_uri, :string, collection: true
     attribute :alternate_format_location_uri, MimeTypedUri, collection: true
     attribute :agency, Agency
 
     json do
-      map "ShortName", to: :short_name, using: { from: :short_name_from_json, to: :short_name_to_json }
-      map "LongName", to: :long_name, using: { from: :long_name_from_json, to: :long_name_to_json }
+      map "ShortName", to: :short_name, with: { from: :short_name_from_json, to: :short_name_to_json }
+      map "LongName", to: :long_name, with: { from: :long_name_from_json, to: :long_name_to_json }
       map "Version", to: :version
-      map "CanonicalUri", to: :canonical_uri, using: { from: :canonical_uri_from_json, to: :canonical_uri_to_json }
+      map "CanonicalUri", to: :canonical_uri, with: { from: :canonical_uri_from_json, to: :canonical_uri_to_json }
       map "CanonicalVersionUri", to: :canonical_version_uri
-      map "LocationUri", to: :location_uri, using: { from: :location_uri_from_json, to: :location_uri_to_json }
+      map "LocationUri", to: :location_uri, with: { from: :location_uri_from_json, to: :location_uri_to_json }
       map "AlternateFormatLocationUri", to: :alternate_format_location_uri,
-                                        using: { from: :alternate_format_location_uri_from_json,
-                                                 to: :alternate_format_location_uri_to_json }
+                                        with: { from: :alternate_format_location_uri_from_json,
+                                                to: :alternate_format_location_uri_to_json }
       map "Agency", to: :agency
     end
 
