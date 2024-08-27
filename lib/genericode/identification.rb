@@ -49,13 +49,16 @@ module Genericode
     end
 
     def location_uri_from_json(model, value)
-      model.location_uri = Shale::Type::String.of_json(Utils.array_wrap(value))
+      # model.location_uri = Shale::Type::String.of_json(Utils.array_wrap(value))
+      model.location_uri = Utils.array_wrap(value).map do |val|
+                             Lutaml::Model::Type::String.cast(val)
+                           end
     end
 
     def location_uri_to_json(model, doc)
       return if model.location_uri.empty?
 
-      doc["LocationUri"] = Shale::Type::String.as_json(Utils.one_or_all(model.location_uri))
+      doc["LocationUri"] = Lutaml::Model::Type::String.cast(Utils.one_or_all(model.location_uri))
     end
 
     def alternate_format_location_uri_from_json(model, value)
