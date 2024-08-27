@@ -46,9 +46,7 @@ module Genericode
 
       # Rule 48-51: URI validations
       [canonical_uri, canonical_version_uri].each do |uri|
-        unless valid_uri?(uri)
-          errors << { code: "INVALID_URI", message: "Invalid URI: #{uri}" }
-        end
+        errors << { code: "INVALID_URI", message: "Invalid URI: #{uri}" } unless valid_uri?(uri)
       end
 
       # Rule 52-53: LocationUri validation

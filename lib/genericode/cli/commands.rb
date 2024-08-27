@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "thor"
 require_relative "validator"
 require_relative "converter"
@@ -10,9 +12,7 @@ module Genericode
       desc "convert INPUT OUTPUT", "Convert between Genericode XML and JSON formats"
 
       def convert(input, output)
-        if Converter.convert(input, output)
-          puts "Conversion successful."
-        end
+        puts "Conversion successful." if Converter.convert(input, output)
       rescue Error => e
         puts "Conversion failed: #{e.message}"
       end
@@ -32,19 +32,17 @@ module Genericode
               puts "  [#{error[:code]}] #{error[:message]}"
             end
           end
+        elsif code_list.valid?
+          puts "File is valid."
         else
-          if code_list.valid?
-            puts "File is valid."
-          else
-            puts "File is invalid."
-          end
+          puts "File is invalid."
         end
       rescue Error => e
         puts "Validation failed: #{e.message}"
       end
 
       desc "list_codes FILE", "List all codes and their associated data in a Genericode file"
-      option :format, type: :string, default: "tsv", enum: ["tsv", "table"], desc: "Output format (tsv or table)"
+      option :format, type: :string, default: "tsv", enum: %w[tsv table], desc: "Output format (tsv or table)"
       option :output, type: :string, desc: "Output file path (default: stdout)"
 
       def list_codes(file)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/genericode/code_list_spec.rb
 
 require "spec_helper"
@@ -89,7 +91,8 @@ RSpec.describe Genericode::CodeList do
 
     it "reports duplicate column IDs" do
       invalid_column_set = valid_column_set.dup
-      invalid_column_set.column << Genericode::Column.new(id: "code", short_name: Genericode::ShortName.new(content: "Duplicate"))
+      invalid_column_set.column << Genericode::Column.new(id: "code",
+                                                          short_name: Genericode::ShortName.new(content: "Duplicate"),)
       invalid_code_list = valid_code_list.dup
       invalid_code_list.column_set = invalid_column_set
       result = invalid_code_list.validate_verbose
@@ -120,7 +123,8 @@ RSpec.describe Genericode::CodeList do
     it "reports missing required values" do
       invalid_simple_code_list = valid_simple_code_list.dup
       invalid_simple_code_list.row << Genericode::Row.new(
-        value: [Genericode::Value.new(column_ref: "name", simple_value: Genericode::SimpleValue.new(content: "Name 3"))],
+        value: [Genericode::Value.new(column_ref: "name",
+                                      simple_value: Genericode::SimpleValue.new(content: "Name 3"),)],
       )
       invalid_code_list = valid_code_list.dup
       invalid_code_list.simple_code_list = invalid_simple_code_list

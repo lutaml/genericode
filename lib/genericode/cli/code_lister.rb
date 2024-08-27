@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "../code_list"
 require "tabulo"
 require "csv"
@@ -12,10 +14,8 @@ module Genericode
           # Validate data types
           code_list.validate_verbose.each do |error|
             raise Error, "#{error[:code]}: #{error[:message]}" if error[:code] == "INVALID_DATA_TYPE"
-          end
 
-          # Ensure valid ColumnRefs
-          code_list.validate_verbose.each do |error|
+            # Ensure valid ColumnRefs
             raise Error, "#{error[:code]}: #{error[:message]}" if error[:code] == "INVALID_COLUMN_REF"
           end
 

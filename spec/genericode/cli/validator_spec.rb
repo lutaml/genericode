@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/genericode/validator_spec.rb
 
 require "spec_helper"
@@ -34,13 +36,17 @@ RSpec.describe Genericode::Cli::Validator do
     it "raises an error for non-existent file" do
       allow(File).to receive(:exist?).and_return(false)
 
-      expect { Genericode::Cli::Validator.validate("nonexistent.gc") }.to raise_error(Genericode::Error, "File does not exist")
+      expect do
+        Genericode::Cli::Validator.validate("nonexistent.gc")
+      end.to raise_error(Genericode::Error, "File does not exist")
     end
 
     it "raises an error for invalid file format" do
       allow(File).to receive(:exist?).and_return(true)
 
-      expect { Genericode::Cli::Validator.validate("invalid.txt") }.to raise_error(Genericode::Error, "Invalid file format")
+      expect do
+        Genericode::Cli::Validator.validate("invalid.txt")
+      end.to raise_error(Genericode::Error, "Invalid file format")
     end
 
     it "raises an error for empty column set" do
@@ -48,7 +54,9 @@ RSpec.describe Genericode::Cli::Validator do
       allow(File).to receive(:exist?).and_return(true)
       allow(File).to receive(:read).and_return(xml_without_columns)
 
-      expect { Genericode::Cli::Validator.validate("invalid.gc") }.to raise_error(Genericode::Error, "No columns defined")
+      expect do
+        Genericode::Cli::Validator.validate("invalid.gc")
+      end.to raise_error(Genericode::Error, "No columns defined")
     end
 
     it "raises an error for empty row set" do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Genericode
   module Cli
     class Converter
@@ -13,10 +15,10 @@ module Genericode
         code_list = CodeList.from_file(input_path)
 
         result = if output_format == ".gcj"
-            code_list.to_json
-          else
-            code_list.to_xml
-          end
+                   code_list.to_json
+                 else
+                   code_list.to_xml
+                 end
 
         File.write(output_path, result)
         true

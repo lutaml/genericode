@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 require_relative "../../../lib/genericode/cli/code_lister"
 
@@ -54,7 +56,10 @@ RSpec.describe Genericode::Cli::CodeLister do
       allow(File).to receive(:read).and_return(xml_with_invalid_column_ref)
       allow(Genericode::CodeList).to receive(:from_xml).and_call_original
 
-      expect { Genericode::Cli::CodeLister.list_codes("invalid.gc") }.to raise_error(Genericode::Error, /INVALID_COLUMN_REF: Invalid ColumnRef 'invalid' in row 1/)
+      expect do
+        Genericode::Cli::CodeLister.list_codes("invalid.gc")
+      end.to raise_error(Genericode::Error,
+                         /INVALID_COLUMN_REF: Invalid ColumnRef 'invalid' in row 1/,)
     end
 
     it "raises an error when a code value is invalid" do
@@ -78,7 +83,10 @@ RSpec.describe Genericode::Cli::CodeLister do
       allow(File).to receive(:read).and_return(invalid_xml)
       allow(Genericode::CodeList).to receive(:from_xml).and_call_original
 
-      expect { Genericode::Cli::CodeLister.list_codes("invalid.gc") }.to raise_error(Genericode::Error, /INVALID_DATA_TYPE: Invalid data type for column 'Code' in row 1/)
+      expect do
+        Genericode::Cli::CodeLister.list_codes("invalid.gc")
+      end.to raise_error(Genericode::Error,
+                         /INVALID_DATA_TYPE: Invalid data type for column 'Code' in row 1/,)
     end
   end
 end
