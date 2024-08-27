@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/genericode/cli_spec.rb
 
 require "spec_helper"

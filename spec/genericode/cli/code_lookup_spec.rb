@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/genericode/code_lookup_spec.rb
 
 require "spec_helper"
@@ -48,7 +50,10 @@ RSpec.describe Genericode::Cli::CodeLookup do
     end
 
     it "raises an error for invalid path" do
-      expect { Genericode::Cli::CodeLookup.lookup("file.gc", "invalid:path") }.to raise_error(Genericode::Error, "Column not found: invalid")
+      expect do
+        Genericode::Cli::CodeLookup.lookup("file.gc",
+                                           "invalid:path",)
+      end.to raise_error(Genericode::Error, "Column not found: invalid")
     end
   end
 end

@@ -89,28 +89,32 @@ module Genericode
 
     def lookup(path)
       parts = path.split(">")
-      conditions = parts[0].split(",").map { |c| c.split(":") }.to_h
+      conditions = parts[0].split(",").to_h { |c| c.split(":") }
       target_column = parts[1]
 
       result = simple_code_list.row.find do |row|
         conditions.all? do |col, value|
           column = column_set.column.find { |c| c.short_name.content.downcase == col.downcase }
           raise Error, "Column not found: #{col}" unless column
+
           row_value = row.value.find { |v| v.column_ref == column.id }&.simple_value&.content
           row_value == value
         end
       end
 
-      if result
-        if target_column
-          column = column_set.column.find { |c| c.short_name.content.downcase == target_column.downcase }
-          raise Error, "Target column not found: #{target_column}" unless column
-          result.value.find { |v| v.column_ref == column.id }&.simple_value&.content
-        else
-          result.value.map { |v| [column_set.column.find { |c| c.id == v.column_ref }.short_name.content, v.simple_value.content] }.to_h
-        end
+      raise Error, "No matching row found for path: #{path}" unless result
+
+      if target_column
+        column = column_set.column.find { |c| c.short_name.content.downcase == target_column.downcase }
+        raise Error, "Target column not found: #{target_column}" unless column
+
+        result.value.find { |v| v.column_ref == column.id }&.simple_value&.content
       else
-        raise Error, "No matching row found for path: #{path}"
+        result.value.to_h do |v|
+          [column_set.column.find do |c|
+             c.id == v.column_ref
+           end.short_name.content, v.simple_value.content,]
+        end
       end
     end
 
@@ -122,10 +126,16 @@ module Genericode
       errors = []
 
       # Rule 1: ColumnSet presence
-      errors << { code: "MISSING_COLUMN_SET", message: "ColumnSet is missing or empty" } if column_set.nil? || column_set.column.empty?
+      if column_set.nil? || column_set.column.empty?
+        errors << { code: "MISSING_COLUMN_SET",
+                    message: "ColumnSet is missing or empty", }
+      end
 
       # Rule 2: SimpleCodeList presence
-      errors << { code: "MISSING_SIMPLE_CODE_LIST", message: "SimpleCodeList is missing or empty" } if simple_code_list.nil? || simple_code_list.row.empty?
+      if simple_code_list.nil? || simple_code_list.row.empty?
+        errors << { code: "MISSING_SIMPLE_CODE_LIST",
+                    message: "SimpleCodeList is missing or empty", }
+      end
 
       # Rule 3: Unique column IDs
       column_ids = column_set&.column&.map(&:id) || []
@@ -137,7 +147,8 @@ module Genericode
       simple_code_list&.row&.each_with_index do |row, index|
         row.value.each do |value|
           unless column_ids.include?(value.column_ref)
-            errors << { code: "INVALID_COLUMN_REF", message: "Invalid ColumnRef '#{value.column_ref}' in row #{index + 1}" }
+            errors << { code: "INVALID_COLUMN_REF",
+                        message: "Invalid ColumnRef '#{value.column_ref}' in row #{index + 1}", }
           end
         end
       end
@@ -158,7 +169,8 @@ module Genericode
       simple_code_list&.row&.each_with_index do |row, index|
         required_columns.each do |col|
           unless row.value.any? { |v| v.column_ref == col.id && v.simple_value&.content }
-            errors << { code: "MISSING_REQUIRED_VALUE", message: "Missing value for required column '#{col.short_name&.content}' in row #{index + 1}" }
+            errors << { code: "MISSING_REQUIRED_VALUE",
+                        message: "Missing value for required column '#{col.short_name&.content}' in row #{index + 1}", }
           end
         end
       end
@@ -169,7 +181,8 @@ module Genericode
         simple_code_list&.row&.each_with_index do |row, index|
           value = row.value.find { |v| v.column_ref == col.id }&.simple_value&.content
           unless value_matches_type?(value, data_type)
-            errors << { code: "INVALID_DATA_TYPE", message: "Invalid data type for column '#{col.short_name&.content}' in row #{index + 1}" }
+            errors << { code: "INVALID_DATA_TYPE",
+                        message: "Invalid data type for column '#{col.short_name&.content}' in row #{index + 1}", }
           end
         end
       end
@@ -182,21 +195,20 @@ module Genericode
       # Rule 19: Datatype ID validation
       column_set&.column&.each do |col|
         if col.data&.type && !valid_datatype_id?(col.data.type)
-          errors << { code: "INVALID_DATATYPE_ID", message: "Invalid datatype ID for column '#{col.short_name&.content}'" }
+          errors << { code: "INVALID_DATATYPE_ID",
+                      message: "Invalid datatype ID for column '#{col.short_name&.content}'", }
         end
-      end
 
-      # Rule 20 and 22: Complex data validation
-      column_set&.column&.each do |col|
+        # Rule 20 and 22: Complex data validation
         if col.data&.type == "*" && col.data&.datatype_library != "*"
-          errors << { code: "INVALID_COMPLEX_DATA", message: "Invalid complex data configuration for column '#{col.short_name&.content}'" }
+          errors << { code: "INVALID_COMPLEX_DATA",
+                      message: "Invalid complex data configuration for column '#{col.short_name&.content}'", }
         end
-      end
 
-      # Rule 23: Language attribute validation
-      column_set&.column&.each do |col|
+        # Rule 23: Language attribute validation
         if col.data&.lang && col.data_restrictions&.lang
-          errors << { code: "DUPLICATE_LANG_ATTRIBUTE", message: "Duplicate lang attribute for column '#{col.short_name&.content}'" }
+          errors << { code: "DUPLICATE_LANG_ATTRIBUTE",
+                      message: "Duplicate lang attribute for column '#{col.short_name&.content}'", }
         end
       end
 
@@ -210,17 +222,19 @@ module Genericode
       # Rule 39: ShortName whitespace check
       column_set&.column&.each do |col|
         if col.short_name&.content&.match?(/\s/)
-          errors << { code: "INVALID_SHORT_NAME", message: "ShortName '#{col.short_name&.content}' contains whitespace" }
+          errors << { code: "INVALID_SHORT_NAME",
+                      message: "ShortName '#{col.short_name&.content}' contains whitespace", }
         end
       end
 
       # Rule 42 and 43: ComplexValue validation
       simple_code_list&.row&.each_with_index do |row, index|
         row.value.each do |value|
-          if value.complex_value
-            unless valid_complex_value?(value.complex_value, column_set&.column&.find { |c| c.id == value.column_ref })
-              errors << { code: "INVALID_COMPLEX_VALUE", message: "Invalid ComplexValue in row #{index + 1}, column '#{value.column_ref}'" }
-            end
+          next unless value.complex_value
+
+          unless valid_complex_value?(value.complex_value, column_set&.column&.find { |c| c.id == value.column_ref })
+            errors << { code: "INVALID_COMPLEX_VALUE",
+                        message: "Invalid ComplexValue in row #{index + 1}, column '#{value.column_ref}'", }
           end
         end
       end
@@ -237,9 +251,17 @@ module Genericode
       when "integer"
         value.to_i.to_s == value
       when "decimal"
-        Float(value) rescue false
+        begin
+          Float(value)
+        rescue StandardError
+          false
+        end
       when "date"
-        Date.parse(value) rescue false
+        begin
+          Date.parse(value)
+        rescue StandardError
+          false
+        end
       else
         true # If type is unknown, consider it valid
       end
@@ -250,7 +272,7 @@ module Genericode
     end
 
     def valid_datatype_id?(id)
-      ["string", "token", "boolean", "decimal", "integer", "date"].include?(id)
+      %w[string token boolean decimal integer date].include?(id)
     end
 
     def valid_complex_value?(complex_value, column)

@@ -34,7 +34,7 @@ module Genericode
       map "LocationUri", to: :location_uri, with: { from: :location_uri_from_json, to: :location_uri_to_json }
       map "AlternateFormatLocationUri", to: :alternate_format_location_uri,
                                         with: { from: :alternate_format_location_uri_from_json,
-                                                to: :alternate_format_location_uri_to_json }
+                                                to: :alternate_format_location_uri_to_json, }
       map "Agency", to: :agency
     end
 
@@ -51,8 +51,8 @@ module Genericode
     def location_uri_from_json(model, value)
       # model.location_uri = Shale::Type::String.of_json(Utils.array_wrap(value))
       model.location_uri = Utils.array_wrap(value).map do |val|
-                             Lutaml::Model::Type::String.cast(val)
-                           end
+        Lutaml::Model::Type::String.cast(val)
+      end
     end
 
     def location_uri_to_json(model, doc)

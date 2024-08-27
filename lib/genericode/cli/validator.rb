@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Genericode
   module Cli
     class Validator

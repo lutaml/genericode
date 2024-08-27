@@ -29,8 +29,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "lutaml-model"
-  spec.add_dependency "thor"
   spec.add_dependency "tabulo"
+  spec.add_dependency "thor"
 
   spec.add_development_dependency "nokogiri"
   spec.add_development_dependency "rake"
