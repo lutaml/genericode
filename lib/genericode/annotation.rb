@@ -12,7 +12,7 @@ module Genericode
 
     json do
       map "Description", to: :description
-      map "AppInfo", to: :app_info
+      map "AppInfo", to: :app_info, render_nil: true
     end
 
     def self.of_json(hash, **)
@@ -26,7 +26,7 @@ module Genericode
       namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
 
       map_element "Description", to: :description, prefix: nil, namespace: nil
-      map_element "AppInfo", to: :app_info, prefix: nil, namespace: nil
+      map_element "AppInfo", to: :app_info, prefix: nil, namespace: nil, render_nil: true
     end
   end
 end
