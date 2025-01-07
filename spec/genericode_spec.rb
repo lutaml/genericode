@@ -63,7 +63,7 @@ RSpec.describe Genericode do
 
         it "performs lossless round-trip conversion" do
           original_to_test = JSON.parse(json_string).tap { |n| n.delete("Annotation") }.to_json
-          parsed = Genericode::CodeList.from_json(json_string)
+          parsed = Genericode::CodeList.from_json(original_to_test)
           generated = Genericode::CodeList.to_json(parsed)
           reparsed = Genericode::CodeList.from_json(generated)
           reparsed_to_test = JSON.parse(reparsed.to_json(except: [:annotation])).to_json
