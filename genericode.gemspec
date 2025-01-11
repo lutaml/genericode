@@ -32,11 +32,4 @@ Gem::Specification.new do |spec|
   spec.add_dependency "lutaml-model"
   spec.add_dependency "tabulo"
   spec.add_dependency "thor"
-
-  spec.add_development_dependency "nokogiri"
-  spec.add_development_dependency "rake"
-  spec.add_development_dependency "rspec"
-  spec.add_development_dependency "rubocop"
-  spec.add_development_dependency "rubocop-performance"
-  spec.add_development_dependency "xml-c14n"
 end
