@@ -9,7 +9,7 @@ require_relative "column_ref"
 
 module Genericode
   class Value < Lutaml::Model::Serializable
-    attribute :column_ref, ColumnRef
+    attribute :column_ref, :string
     attribute :annotation, Annotation
     attribute :simple_value, SimpleValue
     attribute :complex_value, AnyOtherContent
