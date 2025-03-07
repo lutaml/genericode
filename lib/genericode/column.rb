@@ -50,7 +50,7 @@ module Genericode
     end
 
     def long_name_to_json(model, doc)
-      return if model.long_name.empty?
+      return if model.long_name.nil? || model.long_name.empty?
 
       doc["LongName"] = LongName.as_json(Utils.one_or_all(model.long_name))
     end

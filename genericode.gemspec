@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "csv"
-  spec.add_dependency "lutaml-model"
+  spec.add_dependency "lutaml-model", "~>0.7"
   spec.add_dependency "tabulo"
   spec.add_dependency "thor"
 end
