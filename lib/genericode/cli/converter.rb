@@ -22,13 +22,6 @@ module Genericode
 
         File.write(output_path, result)
         true
-        # rescue JSON::ParserError => e
-        #   raise Error, "Invalid JSON in input file: #{e.message}"
-        # rescue Shale::ParseError => e
-        #   raise Error, "Invalid XML in input file: #{e.message}"
-        # rescue StandardError => e
-        #   raise Error, "Conversion error: #{e.message}"
-        # end
       end
     end
   end

@@ -49,7 +49,6 @@ module Genericode
     end
 
     def location_uri_from_json(model, value)
-      # model.location_uri = Shale::Type::String.of_json(Utils.array_wrap(value))
       model.location_uri = Utils.array_wrap(value).map do |val|
         Lutaml::Model::Type::String.cast(val)
       end
