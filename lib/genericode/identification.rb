@@ -43,7 +43,7 @@ module Genericode
     end
 
     def long_name_to_json(model, doc)
-      return if model.long_name.empty?
+      return if model.long_name.nil? || model.long_name.empty?
 
       doc["LongName"] = LongName.as_json(model.long_name)
     end
@@ -56,7 +56,7 @@ module Genericode
     end
 
     def location_uri_to_json(model, doc)
-      return if model.location_uri.empty?
+      return if model.location_uri.nil? || model.location_uri.empty?
 
       doc["LocationUri"] = Lutaml::Model::Type::String.cast(Utils.one_or_all(model.location_uri))
     end
@@ -66,7 +66,7 @@ module Genericode
     end
 
     def alternate_format_location_uri_to_json(model, doc)
-      return if model.alternate_format_location_uri.empty?
+      return if model.alternate_format_location_uri.nil? || model.alternate_format_location_uri.empty?
 
       doc["AlternateFormatLocationUri"] = MimeTypedUri.as_json(Utils.one_or_all(model.alternate_format_location_uri))
     end
