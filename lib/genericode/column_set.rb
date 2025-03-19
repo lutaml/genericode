@@ -14,8 +14,8 @@ module Genericode
     attribute :datatype_library, :string
     attribute :annotation, Annotation
     attribute :identification, Identification
-    attribute :column, Column, collection: true
-    attribute :column_ref, ColumnRef, collection: true
+    attribute :column, Column, collection: true, initialize_empty: true
+    attribute :column_ref, ColumnRef, collection: true, initialize_empty: true
     attribute :key, Key, collection: true
     attribute :key_ref, KeyRef, collection: true
 

@@ -19,7 +19,7 @@ module Genericode
     attribute :id, :string
     attribute :annotation, Annotation
     attribute :short_name, ShortName
-    attribute :long_name, LongName, collection: true
+    attribute :long_name, LongName, collection: true, initialize_empty: true
     attribute :canonical_uri, CanonicalUri
     attribute :canonical_version_uri, :string
     attribute :column_ref, KeyColumnRef, collection: true
