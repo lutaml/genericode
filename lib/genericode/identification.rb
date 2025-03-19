@@ -17,12 +17,12 @@ module Genericode
     include Json::ShortNameMixin
 
     attribute :short_name, ShortName
-    attribute :long_name, LongName, collection: true
+    attribute :long_name, LongName, collection: true, initialize_empty: true
     attribute :version, :string
     attribute :canonical_uri, CanonicalUri
     attribute :canonical_version_uri, :string
-    attribute :location_uri, :string, collection: true
-    attribute :alternate_format_location_uri, MimeTypedUri, collection: true
+    attribute :location_uri, :string, collection: true, initialize_empty: true
+    attribute :alternate_format_location_uri, MimeTypedUri, collection: true, initialize_empty: true
     attribute :agency, Agency
 
     json do

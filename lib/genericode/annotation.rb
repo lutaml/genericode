@@ -26,7 +26,7 @@ module Genericode
       namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
 
       map_element "Description", to: :description, prefix: nil, namespace: nil
-      map_element "AppInfo", to: :app_info, prefix: nil, namespace: nil, render_nil: true
+      map_element "AppInfo", to: :app_info, prefix: nil, namespace: nil, value_map: { to: { nil: :empty } }
     end
   end
 end

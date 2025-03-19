@@ -8,7 +8,7 @@ require_relative "row"
 module Genericode
   class SimpleCodeList < Lutaml::Model::Serializable
     attribute :annotation, Annotation
-    attribute :row, Row, collection: true
+    attribute :row, Row, collection: true, initialize_empty: true
 
     json do
       map "Annotation", to: :annotation

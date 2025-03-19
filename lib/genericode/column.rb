@@ -20,7 +20,7 @@ module Genericode
     attribute :use, :string, default: -> { "optional" }
     attribute :annotation, Annotation
     attribute :short_name, ShortName
-    attribute :long_name, LongName, collection: true
+    attribute :long_name, LongName, collection: true, initialize_empty: true
     attribute :canonical_uri, CanonicalUri
     attribute :canonical_version_uri, :string
     attribute :data, Data
