@@ -20,6 +20,4 @@ require "lutaml/model"
 
 Lutaml::Model::Config.configure do |config|
   config.xml_adapter_type = :nokogiri
-  config.json_adapter_type = :standard
-  config.yaml_adapter_type = :standard
 end
