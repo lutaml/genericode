@@ -21,14 +21,14 @@ module Genericode
     end
 
     xml do
-      root "KeyRef"
-      namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
+      element "KeyRef"
+      namespace Namespace
 
       map_attribute "Id", to: :id
       map_attribute "ExternalRef", to: :external_ref
-      map_element "Annotation", to: :annotation, prefix: nil, namespace: nil
-      map_element "CanonicalVersionUri", to: :canonical_version_uri, prefix: nil, namespace: nil
-      map_element "LocationUri", to: :location_uri, prefix: nil, namespace: nil
+      map_element "Annotation", to: :annotation
+      map_element "CanonicalVersionUri", to: :canonical_version_uri
+      map_element "LocationUri", to: :location_uri
     end
   end
 end

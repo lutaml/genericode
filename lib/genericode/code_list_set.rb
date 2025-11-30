@@ -24,14 +24,14 @@ module Genericode
     end
 
     xml do
-      root "CodeListSet"
-      namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
+      element "CodeListSet"
+      namespace Namespace
 
-      map_element "Annotation", to: :annotation, prefix: nil, namespace: nil
-      map_element "Identification", to: :identification, prefix: nil, namespace: nil
-      map_element "CodeListRef", to: :code_list_ref, prefix: nil, namespace: nil
-      map_element "CodeListSet", to: :code_list_set, prefix: nil, namespace: nil
-      map_element "CodeListSetRef", to: :code_list_set_ref, prefix: nil, namespace: nil
+      map_element "Annotation", to: :annotation
+      map_element "Identification", to: :identification
+      map_element "CodeListRef", to: :code_list_ref
+      map_element "CodeListSet", to: :code_list_set
+      map_element "CodeListSetRef", to: :code_list_set_ref
     end
 
     def validate_verbose

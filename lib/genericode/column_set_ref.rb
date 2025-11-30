@@ -17,12 +17,12 @@ module Genericode
     end
 
     xml do
-      root "ColumnSetRef"
-      namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
+      element "ColumnSetRef"
+      namespace Namespace
 
-      map_element "Annotation", to: :annotation, prefix: nil, namespace: nil
-      map_element "CanonicalVersionUri", to: :canonical_version_uri, prefix: nil, namespace: nil
-      map_element "LocationUri", to: :location_uri, prefix: nil, namespace: nil
+      map_element "Annotation", to: :annotation
+      map_element "CanonicalVersionUri", to: :canonical_version_uri
+      map_element "LocationUri", to: :location_uri
     end
   end
 end

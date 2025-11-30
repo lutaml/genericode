@@ -22,13 +22,13 @@ module Genericode
     end
 
     xml do
-      root "Value"
-      namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
+      element "Value"
+      namespace Namespace
 
-      map_attribute "ColumnRef", to: :column_ref, prefix: nil, namespace: nil
-      map_element "Annotation", to: :annotation, prefix: nil, namespace: nil
-      map_element "SimpleValue", to: :simple_value, prefix: nil, namespace: nil
-      map_element "ComplexValue", to: :complex_value, prefix: nil, namespace: nil
+      map_attribute "ColumnRef", to: :column_ref
+      map_element "Annotation", to: :annotation
+      map_element "SimpleValue", to: :simple_value
+      map_element "ComplexValue", to: :complex_value
     end
   end
 end

@@ -13,8 +13,8 @@ module Genericode
     end
 
     xml do
-      root "MimeTypedUri"
-      namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
+      element "MimeTypedUri"
+      namespace Namespace
 
       map_content to: :content
       map_attribute "MimeType", to: :mime_type

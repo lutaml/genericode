@@ -16,11 +16,11 @@ module Genericode
     end
 
     xml do
-      root "Row"
-      namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
+      element "Row"
+      namespace Namespace
 
-      map_element "Annotation", to: :annotation, prefix: nil, namespace: nil
-      map_element "Value", to: :value, prefix: nil, namespace: nil
+      map_element "Annotation", to: :annotation
+      map_element "Value", to: :value
     end
   end
 end

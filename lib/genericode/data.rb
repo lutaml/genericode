@@ -22,14 +22,14 @@ module Genericode
     end
 
     xml do
-      root "Data"
-      namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
+      element "Data"
+      namespace Namespace
 
       map_attribute "Type", to: :type
       map_attribute "DatatypeLibrary", to: :datatype_library
       map_attribute "Lang", to: :lang
-      map_element "Annotation", to: :annotation, prefix: nil, namespace: nil
-      map_element "Parameter", to: :parameter, prefix: nil, namespace: nil
+      map_element "Annotation", to: :annotation
+      map_element "Parameter", to: :parameter
     end
   end
 end

@@ -13,8 +13,8 @@ module Genericode
     end
 
     xml do
-      root "ShortName"
-      namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
+      element "ShortName"
+      namespace Namespace
 
       map_content to: :content
       map_attribute "lang", to: :lang, prefix: "xml", namespace: "http://www.w3.org/XML/1998/namespace"

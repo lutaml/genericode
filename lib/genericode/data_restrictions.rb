@@ -15,11 +15,11 @@ module Genericode
     end
 
     xml do
-      root "DataRestrictions"
-      namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
+      element "DataRestrictions"
+      namespace Namespace
 
       map_attribute "Lang", to: :lang
-      map_element "Parameter", to: :parameter, prefix: nil, namespace: nil
+      map_element "Parameter", to: :parameter
     end
   end
 end

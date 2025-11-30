@@ -39,12 +39,12 @@ module Genericode
     end
 
     xml do
-      root "Agency"
-      namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
+      element "Agency"
+      namespace Namespace
 
-      map_element "ShortName", to: :short_name, prefix: nil, namespace: nil
-      map_element "LongName", to: :long_name, prefix: nil, namespace: nil
-      map_element "Identifier", to: :identifier, prefix: nil, namespace: nil
+      map_element "ShortName", to: :short_name
+      map_element "LongName", to: :long_name
+      map_element "Identifier", to: :identifier
     end
   end
 end

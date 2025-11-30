@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "../code_list"
-require "tabulo"
+require "table_tennis"
 require "csv"
 
 module Genericode
@@ -50,16 +50,15 @@ module Genericode
           columns = code_list.column_set.column
           rows = code_list.simple_code_list.row
 
-          table = Tabulo::Table.new(rows) do |t|
-            columns.each do |column|
-              t.add_column(column.short_name.content) do |row|
-                value = row.value.find { |v| v.column_ref == column.id }
-                value&.simple_value&.content || ""
-              end
+          headers = columns.map { |col| col.short_name.content }
+          data = rows.map do |row|
+            columns.map do |col|
+              value = row.value.find { |v| v.column_ref == col.id }
+              value&.simple_value&.content || ""
             end
           end
 
-          table.to_s
+          TableTennis.render([headers] + data)
         end
       end
     end

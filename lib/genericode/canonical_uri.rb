@@ -9,7 +9,7 @@ module Genericode
     attribute :content, :string
 
     xml do
-      root "CanonicalUri"
+      element "CanonicalUri"
       map_content to: :content
     end
 

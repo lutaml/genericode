@@ -72,14 +72,14 @@ module Genericode
     end
 
     xml do
-      root "CodeList"
-      namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
+      element "CodeList"
+      namespace Namespace
 
-      map_element "Annotation", to: :annotation, prefix: nil, namespace: nil
-      map_element "Identification", to: :identification, prefix: nil, namespace: nil
-      map_element "ColumnSet", to: :column_set, prefix: nil, namespace: nil
-      map_element "ColumnSetRef", to: :column_set_ref, prefix: nil, namespace: nil
-      map_element "SimpleCodeList", to: :simple_code_list, prefix: nil, namespace: nil
+      map_element "Annotation", to: :annotation
+      map_element "Identification", to: :identification
+      map_element "ColumnSet", to: :column_set
+      map_element "ColumnSetRef", to: :column_set_ref
+      map_element "SimpleCodeList", to: :simple_code_list
     end
 
     def lookup(path)

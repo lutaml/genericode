@@ -71,17 +71,17 @@ module Genericode
     end
 
     xml do
-      root "Identification"
-      namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
+      element "Identification"
+      namespace Namespace
 
-      map_element "ShortName", to: :short_name, prefix: nil, namespace: nil
-      map_element "LongName", to: :long_name, prefix: nil, namespace: nil
-      map_element "Version", to: :version, prefix: nil, namespace: nil
-      map_element "CanonicalUri", to: :canonical_uri, prefix: nil, namespace: nil
-      map_element "CanonicalVersionUri", to: :canonical_version_uri, prefix: nil, namespace: nil
-      map_element "LocationUri", to: :location_uri, prefix: nil, namespace: nil
-      map_element "AlternateFormatLocationUri", to: :alternate_format_location_uri, prefix: nil, namespace: nil
-      map_element "Agency", to: :agency, prefix: nil, namespace: nil
+      map_element "ShortName", to: :short_name
+      map_element "LongName", to: :long_name
+      map_element "Version", to: :version
+      map_element "CanonicalUri", to: :canonical_uri
+      map_element "CanonicalVersionUri", to: :canonical_version_uri
+      map_element "LocationUri", to: :location_uri
+      map_element "AlternateFormatLocationUri", to: :alternate_format_location_uri
+      map_element "Agency", to: :agency
     end
   end
 end

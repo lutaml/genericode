@@ -25,8 +25,8 @@ module Genericode
     end
 
     xml do
-      root "LongName"
-      namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
+      element "LongName"
+      namespace Namespace
 
       map_content to: :content
       map_attribute "Identifier", to: :identifier

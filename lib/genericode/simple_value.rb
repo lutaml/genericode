@@ -11,8 +11,8 @@ module Genericode
     end
 
     xml do
-      root "SimpleValue"
-      namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
+      element "SimpleValue"
+      namespace Namespace
 
       map_content to: :content
     end

@@ -8,6 +8,7 @@ Lutaml::Model::Config.configure do |config|
 end
 
 require_relative "genericode/version"
+require_relative "genericode/namespace"
 require_relative "genericode/code_list"
 
 module Genericode
