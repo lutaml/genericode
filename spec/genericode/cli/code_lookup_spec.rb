@@ -38,21 +38,24 @@ RSpec.describe Genericode::Cli::CodeLookup do
     end
 
     it "looks up a code successfully" do
-      expect(Genericode::Cli::CodeLookup.lookup("file.gc", "code:Code1")).to eq("Code: Code1\nName: Name1")
+      expect(described_class.lookup("file.gc",
+                                    "code:Code1")).to eq("Code: Code1\nName: Name1")
     end
 
     it "looks up a name successfully" do
-      expect(Genericode::Cli::CodeLookup.lookup("file.gc", "name:Name1")).to eq("Code: Code1\nName: Name1")
+      expect(described_class.lookup("file.gc",
+                                    "name:Name1")).to eq("Code: Code1\nName: Name1")
     end
 
     it "looks up a simple value successfully" do
-      expect(Genericode::Cli::CodeLookup.lookup("file.gc", "code:Code1>name")).to eq("Name1")
+      expect(described_class.lookup("file.gc",
+                                    "code:Code1>name")).to eq("Name1")
     end
 
     it "raises an error for invalid path" do
       expect do
-        Genericode::Cli::CodeLookup.lookup("file.gc",
-                                           "invalid:path",)
+        described_class.lookup("file.gc",
+                               "invalid:path")
       end.to raise_error(Genericode::Error, "Column not found: invalid")
     end
   end

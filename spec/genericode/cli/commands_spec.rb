@@ -11,12 +11,20 @@ RSpec.describe Genericode::Cli::Commands do
   describe "#convert" do
     it "converts XML to JSON successfully" do
       allow(Genericode::Cli::Converter).to receive(:convert).and_return(true)
-      expect { cli.convert("input.gc", "output.gcj") }.to output("Conversion successful.\n").to_stdout
+      expect do
+        cli.convert("input.gc",
+                    "output.gcj")
+      end.to output("Conversion successful.\n").to_stdout
     end
 
     it "handles conversion errors" do
-      allow(Genericode::Cli::Converter).to receive(:convert).and_raise(Genericode::Error, "Conversion failed")
-      expect { cli.convert("input.gc", "output.gcj") }.to output("Conversion failed: Conversion failed\n").to_stdout
+      allow(Genericode::Cli::Converter).to receive(:convert).and_raise(
+        Genericode::Error, "Conversion failed"
+      )
+      expect do
+        cli.convert("input.gc",
+                    "output.gcj")
+      end.to output("Conversion failed: Conversion failed\n").to_stdout
     end
   end
 
@@ -27,8 +35,12 @@ RSpec.describe Genericode::Cli::Commands do
     end
 
     it "handles validation errors" do
-      allow(Genericode::CodeList).to receive(:from_file).and_raise(Genericode::Error, "Invalid file")
-      expect { cli.validate("file.gc") }.to output("Validation failed: Invalid file\n").to_stdout
+      allow(Genericode::CodeList).to receive(:from_file).and_raise(
+        Genericode::Error, "Invalid file"
+      )
+      expect do
+        cli.validate("file.gc")
+      end.to output("Validation failed: Invalid file\n").to_stdout
     end
   end
 
@@ -39,8 +51,12 @@ RSpec.describe Genericode::Cli::Commands do
     end
 
     it "handles listing errors" do
-      allow(Genericode::Cli::CodeLister).to receive(:list_codes).and_raise(Genericode::Error, "Listing failed")
-      expect { cli.list_codes("file.gc") }.to output("Listing codes failed: Listing failed\n").to_stdout
+      allow(Genericode::Cli::CodeLister).to receive(:list_codes).and_raise(
+        Genericode::Error, "Listing failed"
+      )
+      expect do
+        cli.list_codes("file.gc")
+      end.to output("Listing codes failed: Listing failed\n").to_stdout
     end
   end
 
@@ -51,8 +67,13 @@ RSpec.describe Genericode::Cli::Commands do
     end
 
     it "handles lookup errors" do
-      allow(Genericode::Cli::CodeLookup).to receive(:lookup).and_raise(Genericode::Error, "Lookup failed")
-      expect { cli.lookup("file.gc", "path") }.to output("Lookup failed: Lookup failed\n").to_stdout
+      allow(Genericode::Cli::CodeLookup).to receive(:lookup).and_raise(
+        Genericode::Error, "Lookup failed"
+      )
+      expect do
+        cli.lookup("file.gc",
+                   "path")
+      end.to output("Lookup failed: Lookup failed\n").to_stdout
     end
   end
 end

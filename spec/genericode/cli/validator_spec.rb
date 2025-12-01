@@ -27,17 +27,16 @@ RSpec.describe Genericode::Cli::Validator do
     end
 
     it "validates a valid XML file" do
-      allow(File).to receive(:exist?).and_return(true)
-      allow(File).to receive(:read).and_return(valid_xml)
+      allow(File).to receive_messages(exist?: true, read: valid_xml)
 
-      expect(Genericode::Cli::Validator.validate("valid.gc")).to be true
+      expect(described_class.validate("valid.gc")).to be true
     end
 
     it "raises an error for non-existent file" do
       allow(File).to receive(:exist?).and_return(false)
 
       expect do
-        Genericode::Cli::Validator.validate("nonexistent.gc")
+        described_class.validate("nonexistent.gc")
       end.to raise_error(Genericode::Error, "File does not exist")
     end
 
@@ -45,26 +44,27 @@ RSpec.describe Genericode::Cli::Validator do
       allow(File).to receive(:exist?).and_return(true)
 
       expect do
-        Genericode::Cli::Validator.validate("invalid.txt")
+        described_class.validate("invalid.txt")
       end.to raise_error(Genericode::Error, "Invalid file format")
     end
 
     it "raises an error for empty column set" do
       xml_without_columns = "<CodeList><ColumnSet></ColumnSet><SimpleCodeList><Row></Row></SimpleCodeList></CodeList>"
-      allow(File).to receive(:exist?).and_return(true)
-      allow(File).to receive(:read).and_return(xml_without_columns)
+      allow(File).to receive_messages(exist?: true, read: xml_without_columns)
 
       expect do
-        Genericode::Cli::Validator.validate("invalid.gc")
+        described_class.validate("invalid.gc")
       end.to raise_error(Genericode::Error, "No columns defined")
     end
 
     it "raises an error for empty row set" do
       xml_without_rows = "<CodeList><ColumnSet><Column></Column></ColumnSet><SimpleCodeList></SimpleCodeList></CodeList>"
-      allow(File).to receive(:exist?).and_return(true)
-      allow(File).to receive(:read).and_return(xml_without_rows)
+      allow(File).to receive_messages(exist?: true, read: xml_without_rows)
 
-      expect { Genericode::Cli::Validator.validate("invalid.gc") }.to raise_error(Genericode::Error, "No rows defined")
+      expect do
+        described_class.validate("invalid.gc")
+      end.to raise_error(Genericode::Error,
+                         "No rows defined")
     end
   end
 end

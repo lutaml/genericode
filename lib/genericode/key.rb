@@ -27,11 +27,15 @@ module Genericode
     json do
       map "Id", to: :id
       map "Annotation", to: :annotation
-      map "ShortName", to: :short_name, with: { from: :short_name_from_json, to: :short_name_to_json }
-      map "LongName", to: :long_name, with: { from: :long_name_from_json, to: :long_name_to_json }
-      map "CanonicalUri", to: :canonical_uri, with: { from: :canonical_uri_from_json, to: :canonical_uri_to_json }
+      map "ShortName", to: :short_name,
+                       with: { from: :short_name_from_json, to: :short_name_to_json }
+      map "LongName", to: :long_name,
+                      with: { from: :long_name_from_json, to: :long_name_to_json }
+      map "CanonicalUri", to: :canonical_uri,
+                          with: { from: :canonical_uri_from_json, to: :canonical_uri_to_json }
       map "CanonicalVersionUri", to: :canonical_version_uri
-      map "ColumnRef", to: :column_ref, with: { from: :column_ref_from_json, to: :column_ref_to_json }
+      map "ColumnRef", to: :column_ref,
+                       with: { from: :column_ref_from_json, to: :column_ref_to_json }
     end
 
     def long_name_from_json(model, value)
@@ -45,7 +49,9 @@ module Genericode
     end
 
     def column_ref_from_json(model, value)
-      model.column_ref = Utils.array_wrap(value).map { |n| KeyColumnRef.new(ref: n) }
+      model.column_ref = Utils.array_wrap(value).map do |n|
+        KeyColumnRef.new(ref: n)
+      end
     end
 
     def column_ref_to_json(model, doc)

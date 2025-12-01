@@ -40,19 +40,24 @@ module Genericode
       # Rule 47: CodeListSet reference validation
       code_list_set_ref&.each do |ref|
         unless valid_uri?(ref.canonical_uri) && valid_uri?(ref.canonical_version_uri)
-          errors << { code: "INVALID_CODELIST_SET_REF", message: "Invalid CodeListSet reference URI" }
+          errors << { code: "INVALID_CODELIST_SET_REF",
+                      message: "Invalid CodeListSet reference URI" }
         end
       end
 
       # Rule 48-51: URI validations
       [canonical_uri, canonical_version_uri].each do |uri|
-        errors << { code: "INVALID_URI", message: "Invalid URI: #{uri}" } unless valid_uri?(uri)
+        unless valid_uri?(uri)
+          errors << { code: "INVALID_URI",
+                      message: "Invalid URI: #{uri}" }
+        end
       end
 
       # Rule 52-53: LocationUri validation
       location_uri&.each do |uri|
         unless valid_genericode_uri?(uri)
-          errors << { code: "INVALID_LOCATION_URI", message: "Invalid LocationUri: #{uri}" }
+          errors << { code: "INVALID_LOCATION_URI",
+                      message: "Invalid LocationUri: #{uri}" }
         end
       end
 

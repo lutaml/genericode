@@ -17,7 +17,8 @@ module Genericode
 
     json do
       map "Annotation", to: :annotation
-      map "CanonicalUri", to: :canonical_uri, with: { from: :canonical_uri_from_json, to: :canonical_uri_to_json }
+      map "CanonicalUri", to: :canonical_uri,
+                          with: { from: :canonical_uri_from_json, to: :canonical_uri_to_json }
       map "CanonicalVersionUri", to: :canonical_version_uri
       map "LocationUri", to: :location_uri
     end

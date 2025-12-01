@@ -12,7 +12,8 @@ module Genericode
     attribute :long_name, :string
 
     json do
-      map "ShortName", to: :short_name, with: { from: :short_name_from_json, to: :short_name_to_json }
+      map "ShortName", to: :short_name,
+                       with: { from: :short_name_from_json, to: :short_name_to_json }
       map "LongName", to: :long_name
       map "_", to: :content
     end

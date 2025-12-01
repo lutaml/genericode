@@ -31,14 +31,18 @@ RSpec.describe Genericode::CodeList do
       row: [
         Genericode::Row.new(
           value: [
-            Genericode::Value.new(column_ref: "code", simple_value: Genericode::SimpleValue.new(content: "CODE1")),
-            Genericode::Value.new(column_ref: "name", simple_value: Genericode::SimpleValue.new(content: "Name 1")),
+            Genericode::Value.new(column_ref: "code",
+                                  simple_value: Genericode::SimpleValue.new(content: "CODE1")),
+            Genericode::Value.new(column_ref: "name",
+                                  simple_value: Genericode::SimpleValue.new(content: "Name 1")),
           ],
         ),
         Genericode::Row.new(
           value: [
-            Genericode::Value.new(column_ref: "code", simple_value: Genericode::SimpleValue.new(content: "CODE2")),
-            Genericode::Value.new(column_ref: "name", simple_value: Genericode::SimpleValue.new(content: "Name 2")),
+            Genericode::Value.new(column_ref: "code",
+                                  simple_value: Genericode::SimpleValue.new(content: "CODE2")),
+            Genericode::Value.new(column_ref: "name",
+                                  simple_value: Genericode::SimpleValue.new(content: "Name 2")),
           ],
         ),
       ],
@@ -92,7 +96,7 @@ RSpec.describe Genericode::CodeList do
     it "reports duplicate column IDs" do
       invalid_column_set = valid_column_set.dup
       invalid_column_set.column << Genericode::Column.new(id: "code",
-                                                          short_name: Genericode::ShortName.new(content: "Duplicate"),)
+                                                          short_name: Genericode::ShortName.new(content: "Duplicate"))
       invalid_code_list = valid_code_list.dup
       invalid_code_list.column_set = invalid_column_set
       result = invalid_code_list.validate_verbose
@@ -101,7 +105,8 @@ RSpec.describe Genericode::CodeList do
 
     it "reports missing Code column" do
       invalid_column_set = Genericode::ColumnSet.new(
-        column: [Genericode::Column.new(id: "name", short_name: Genericode::ShortName.new(content: "Name"))],
+        column: [Genericode::Column.new(id: "name",
+                                        short_name: Genericode::ShortName.new(content: "Name"))],
       )
       invalid_code_list = valid_code_list.dup
       invalid_code_list.column_set = invalid_column_set
@@ -112,7 +117,8 @@ RSpec.describe Genericode::CodeList do
     it "reports duplicate code values" do
       invalid_simple_code_list = valid_simple_code_list.dup
       invalid_simple_code_list.row << Genericode::Row.new(
-        value: [Genericode::Value.new(column_ref: "code", simple_value: Genericode::SimpleValue.new(content: "CODE1"))],
+        value: [Genericode::Value.new(column_ref: "code",
+                                      simple_value: Genericode::SimpleValue.new(content: "CODE1"))],
       )
       invalid_code_list = valid_code_list.dup
       invalid_code_list.simple_code_list = invalid_simple_code_list
@@ -124,7 +130,7 @@ RSpec.describe Genericode::CodeList do
       invalid_simple_code_list = valid_simple_code_list.dup
       invalid_simple_code_list.row << Genericode::Row.new(
         value: [Genericode::Value.new(column_ref: "name",
-                                      simple_value: Genericode::SimpleValue.new(content: "Name 3"),)],
+                                      simple_value: Genericode::SimpleValue.new(content: "Name 3"))],
       )
       invalid_code_list = valid_code_list.dup
       invalid_code_list.simple_code_list = invalid_simple_code_list
@@ -158,7 +164,9 @@ RSpec.describe Genericode::CodeList do
         it "converts XML to JSON correctly" do
           code_list = described_class.from_xml(xml_content)
           generated_json = JSON.parse(code_list.to_json(except: [:annotation]))
-          expected_json = JSON.parse(json_content).tap { |n| n.delete("Annotation") }
+          expected_json = JSON.parse(json_content).tap do |n|
+            n.delete("Annotation")
+          end
 
           expect(generated_json).to eq(expected_json)
         end

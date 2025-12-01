@@ -7,9 +7,15 @@ module Genericode
         input_format = File.extname(input_path)
         output_format = File.extname(output_path)
 
-        raise Error, "Invalid input format" unless [".gc", ".gcj"].include?(input_format)
-        raise Error, "Invalid output format" unless [".gc", ".gcj"].include?(output_format)
-        raise Error, "Input and output formats are the same" if input_format == output_format
+        raise Error, "Invalid input format" unless [".gc",
+                                                    ".gcj"].include?(input_format)
+        raise Error, "Invalid output format" unless [".gc",
+                                                     ".gcj"].include?(output_format)
+
+        if input_format == output_format
+          raise Error,
+                "Input and output formats are the same"
+        end
 
         # begin
         code_list = CodeList.from_file(input_path)

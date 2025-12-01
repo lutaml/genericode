@@ -12,7 +12,8 @@ RSpec.describe Genericode::Cli::Converter do
       allow(File).to receive(:write)
       allow_any_instance_of(Genericode::CodeList).to receive(:to_json).and_return("{}")
 
-      expect(Genericode::Cli::Converter.convert("input.gc", "output.gcj")).to be true
+      expect(described_class.convert("input.gc",
+                                     "output.gcj")).to be true
     end
 
     it "converts JSON to XML" do
@@ -20,28 +21,30 @@ RSpec.describe Genericode::Cli::Converter do
       allow(File).to receive(:write)
       allow_any_instance_of(Genericode::CodeList).to receive(:to_xml).and_return("<CodeList></CodeList>")
 
-      expect(Genericode::Cli::Converter.convert("input.gcj", "output.gc")).to be true
+      expect(described_class.convert("input.gcj",
+                                     "output.gc")).to be true
     end
 
     it "raises an error for invalid input format" do
       expect do
-        Genericode::Cli::Converter.convert("input.txt",
-                                           "output.gcj",)
+        described_class.convert("input.txt",
+                                "output.gcj")
       end.to raise_error(Genericode::Error, "Invalid input format")
     end
 
     it "raises an error for invalid output format" do
       expect do
-        Genericode::Cli::Converter.convert("input.gc",
-                                           "output.txt",)
+        described_class.convert("input.gc",
+                                "output.txt")
       end.to raise_error(Genericode::Error, "Invalid output format")
     end
 
     it "raises an error when input and output formats are the same" do
       expect do
-        Genericode::Cli::Converter.convert("input.gc",
-                                           "output.gc",)
-      end.to raise_error(Genericode::Error, "Input and output formats are the same")
+        described_class.convert("input.gc",
+                                "output.gc")
+      end.to raise_error(Genericode::Error,
+                         "Input and output formats are the same")
     end
   end
 end

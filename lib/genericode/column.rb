@@ -29,9 +29,12 @@ module Genericode
       map "Required", to: :use, with: { from: :use_from_json, to: :use_to_json }
       map "Id", to: :id
       map "Annotation", to: :annotation
-      map "ShortName", to: :short_name, with: { from: :short_name_from_json, to: :short_name_to_json }
-      map "LongName", to: :long_name, with: { from: :long_name_from_json, to: :long_name_to_json }
-      map "CanonicalUri", to: :canonical_uri, with: { from: :canonical_uri_from_json, to: :canonical_uri_to_json }
+      map "ShortName", to: :short_name,
+                       with: { from: :short_name_from_json, to: :short_name_to_json }
+      map "LongName", to: :long_name,
+                      with: { from: :long_name_from_json, to: :long_name_to_json }
+      map "CanonicalUri", to: :canonical_uri,
+                          with: { from: :canonical_uri_from_json, to: :canonical_uri_to_json }
       map "CanonicalVersionUri", to: :canonical_version_uri
       map "DataType", to: :type, delegate: :data
       map "DataLanguage", to: :lang, delegate: :data

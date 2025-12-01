@@ -25,7 +25,9 @@ RSpec.describe Genericode do
     # Find all elements and normalize their text content
     doc.xpath("//*").each do |node|
       # If element has no children and only whitespace text, set to empty
-      node.content = "" if node.children.all? { |child| child.text? && child.text.strip.empty? }
+      node.content = "" if node.children.all? do |child|
+        child.text? && child.text.strip.empty?
+      end
     end
     doc.to_xml
   end
@@ -83,7 +85,9 @@ RSpec.describe Genericode do
         end
 
         it "performs lossless round-trip conversion" do
-          original_to_test = JSON.parse(json_string).tap { |n| n.delete("Annotation") }.to_json
+          original_to_test = JSON.parse(json_string).tap do |n|
+            n.delete("Annotation")
+          end.to_json
           parsed = Genericode::CodeList.from_json(original_to_test)
           generated = Genericode::CodeList.to_json(parsed)
           reparsed = Genericode::CodeList.from_json(generated)

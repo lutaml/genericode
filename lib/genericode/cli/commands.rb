@@ -9,7 +9,8 @@ require_relative "code_lookup"
 module Genericode
   module Cli
     class Commands < Thor
-      desc "convert INPUT OUTPUT", "Convert between Genericode XML and JSON formats"
+      desc "convert INPUT OUTPUT",
+           "Convert between Genericode XML and JSON formats"
 
       def convert(input, output)
         puts "Conversion successful." if Converter.convert(input, output)
@@ -41,8 +42,10 @@ module Genericode
         puts "Validation failed: #{e.message}"
       end
 
-      desc "list_codes FILE", "List all codes and their associated data in a Genericode file"
-      option :format, type: :string, default: "tsv", enum: %w[tsv table], desc: "Output format (tsv or table)"
+      desc "list_codes FILE",
+           "List all codes and their associated data in a Genericode file"
+      option :format, type: :string, default: "tsv", enum: %w[tsv table],
+                      desc: "Output format (tsv or table)"
       option :output, type: :string, desc: "Output file path (default: stdout)"
 
       def list_codes(file)

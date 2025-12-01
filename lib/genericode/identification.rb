@@ -22,19 +22,24 @@ module Genericode
     attribute :canonical_uri, CanonicalUri
     attribute :canonical_version_uri, :string
     attribute :location_uri, :string, collection: true, initialize_empty: true
-    attribute :alternate_format_location_uri, MimeTypedUri, collection: true, initialize_empty: true
+    attribute :alternate_format_location_uri, MimeTypedUri, collection: true,
+                                                            initialize_empty: true
     attribute :agency, Agency
 
     json do
-      map "ShortName", to: :short_name, with: { from: :short_name_from_json, to: :short_name_to_json }
-      map "LongName", to: :long_name, with: { from: :long_name_from_json, to: :long_name_to_json }
+      map "ShortName", to: :short_name,
+                       with: { from: :short_name_from_json, to: :short_name_to_json }
+      map "LongName", to: :long_name,
+                      with: { from: :long_name_from_json, to: :long_name_to_json }
       map "Version", to: :version
-      map "CanonicalUri", to: :canonical_uri, with: { from: :canonical_uri_from_json, to: :canonical_uri_to_json }
+      map "CanonicalUri", to: :canonical_uri,
+                          with: { from: :canonical_uri_from_json, to: :canonical_uri_to_json }
       map "CanonicalVersionUri", to: :canonical_version_uri
-      map "LocationUri", to: :location_uri, with: { from: :location_uri_from_json, to: :location_uri_to_json }
+      map "LocationUri", to: :location_uri,
+                         with: { from: :location_uri_from_json, to: :location_uri_to_json }
       map "AlternateFormatLocationUri", to: :alternate_format_location_uri,
                                         with: { from: :alternate_format_location_uri_from_json,
-                                                to: :alternate_format_location_uri_to_json, }
+                                                to: :alternate_format_location_uri_to_json }
       map "Agency", to: :agency
     end
 
@@ -67,7 +72,8 @@ module Genericode
     def alternate_format_location_uri_to_json(model, doc)
       return if model.alternate_format_location_uri.nil? || model.alternate_format_location_uri.empty?
 
-      doc["AlternateFormatLocationUri"] = MimeTypedUri.as_json(Utils.one_or_all(model.alternate_format_location_uri))
+      doc["AlternateFormatLocationUri"] =
+        MimeTypedUri.as_json(Utils.one_or_all(model.alternate_format_location_uri))
     end
 
     xml do
@@ -80,7 +86,8 @@ module Genericode
       map_element "CanonicalUri", to: :canonical_uri
       map_element "CanonicalVersionUri", to: :canonical_version_uri
       map_element "LocationUri", to: :location_uri
-      map_element "AlternateFormatLocationUri", to: :alternate_format_location_uri
+      map_element "AlternateFormatLocationUri",
+                  to: :alternate_format_location_uri
       map_element "Agency", to: :agency
     end
   end

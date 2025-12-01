@@ -17,9 +17,12 @@ module Genericode
     attribute :identifier, GeneralIdentifier, collection: true
 
     json do
-      map "ShortName", to: :short_name, with: { from: :short_name_from_json, to: :short_name_to_json }
-      map "LongName", to: :long_name, with: { from: :long_name_from_json, to: :long_name_to_json }
-      map "Identifier", to: :identifier, with: { from: :identifier_from_json, to: :identifier_to_json }
+      map "ShortName", to: :short_name,
+                       with: { from: :short_name_from_json, to: :short_name_to_json }
+      map "LongName", to: :long_name,
+                      with: { from: :long_name_from_json, to: :long_name_to_json }
+      map "Identifier", to: :identifier,
+                        with: { from: :identifier_from_json, to: :identifier_to_json }
     end
 
     def long_name_from_json(model, value)
@@ -35,7 +38,8 @@ module Genericode
     end
 
     def identifier_to_json(model, doc)
-      doc["Identifier"] = GeneralIdentifier.as_json(Utils.one_or_all(model.identifier))
+      doc["Identifier"] =
+        GeneralIdentifier.as_json(Utils.one_or_all(model.identifier))
     end
 
     xml do
