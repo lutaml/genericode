@@ -9,6 +9,7 @@ require_relative "json/canonical_uri_mixin"
 module Genericode
   class CodeListSetRef < Lutaml::Model::Serializable
     include Json::CanonicalUriMixin
+
     attribute :annotation, Annotation
     attribute :canonical_uri, CanonicalUri
     attribute :canonical_version_uri, :string

@@ -25,9 +25,7 @@ RSpec.describe Genericode do
     # Find all elements and normalize their text content
     doc.xpath("//*").each do |node|
       # If element has no children and only whitespace text, set to empty
-      if node.children.all? { |child| child.text? && child.text.strip.empty? }
-        node.content = ""
-      end
+      node.content = "" if node.children.all? { |child| child.text? && child.text.strip.empty? }
     end
     doc.to_xml
   end
