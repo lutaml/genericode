@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
-require "lutaml/model"
+require 'lutaml/model'
+require 'lutaml/xml/w3c'
 
 module Genericode
   class ShortName < Lutaml::Model::Serializable
     attribute :content, :string
-    attribute :lang, :string
+    attribute :lang, Lutaml::Xml::W3c::XmlLangType
 
     json do
-      map "lang", to: :lang
-      map "_", to: :content
+      map 'lang', to: :lang
+      map '_', to: :content
     end
 
     xml do
-      root "ShortName"
-      namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
+      element 'ShortName'
 
       map_content to: :content
-      map_attribute "lang", to: :lang, prefix: "xml", namespace: "http://www.w3.org/XML/1998/namespace"
+      map_attribute 'lang', to: :lang
     end
 
     # Rule 39: Must not contain whitespace characters

@@ -10,7 +10,7 @@ module Genericode
       def canonical_uri_to_json(model, doc)
         return if model.canonical_uri.nil?
 
-        doc["CanonicalUri"] = model.canonical_uri&.content
+        doc['CanonicalUri'] = model.canonical_uri&.content
       end
     end
   end

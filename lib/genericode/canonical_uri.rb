@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require "lutaml/model"
-require "uri"
+require 'lutaml/model'
+require 'uri'
 
 module Genericode
   # Rule 4: Must be an absolute URI, must not be relative
@@ -9,7 +9,7 @@ module Genericode
     attribute :content, :string
 
     xml do
-      root "CanonicalUri"
+      element 'CanonicalUri'
       map_content to: :content
     end
 

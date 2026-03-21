@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require "lutaml/model"
+require 'lutaml/model'
 
-require_relative "general_identifier"
-require_relative "long_name"
-require_relative "short_name"
-require_relative "json/short_name_mixin"
-require_relative "utils"
+require_relative 'general_identifier'
+require_relative 'long_name'
+require_relative 'short_name'
+require_relative 'json/short_name_mixin'
+require_relative 'utils'
 
 module Genericode
   class Agency < Lutaml::Model::Serializable
@@ -17,9 +17,9 @@ module Genericode
     attribute :identifier, GeneralIdentifier, collection: true
 
     json do
-      map "ShortName", to: :short_name, with: { from: :short_name_from_json, to: :short_name_to_json }
-      map "LongName", to: :long_name, with: { from: :long_name_from_json, to: :long_name_to_json }
-      map "Identifier", to: :identifier, with: { from: :identifier_from_json, to: :identifier_to_json }
+      map 'ShortName', to: :short_name, with: { from: :short_name_from_json, to: :short_name_to_json }
+      map 'LongName', to: :long_name, with: { from: :long_name_from_json, to: :long_name_to_json }
+      map 'Identifier', to: :identifier, with: { from: :identifier_from_json, to: :identifier_to_json }
     end
 
     def long_name_from_json(model, value)
@@ -27,7 +27,7 @@ module Genericode
     end
 
     def long_name_to_json(model, doc)
-      doc["LongName"] = LongName.as_json(Utils.one_or_all(model.long_name))
+      doc['LongName'] = LongName.as_json(Utils.one_or_all(model.long_name))
     end
 
     def identifier_from_json(model, value)
@@ -35,16 +35,15 @@ module Genericode
     end
 
     def identifier_to_json(model, doc)
-      doc["Identifier"] = GeneralIdentifier.as_json(Utils.one_or_all(model.identifier))
+      doc['Identifier'] = GeneralIdentifier.as_json(Utils.one_or_all(model.identifier))
     end
 
     xml do
-      root "Agency"
-      namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
+      element 'Agency'
 
-      map_element "ShortName", to: :short_name, prefix: nil, namespace: nil
-      map_element "LongName", to: :long_name, prefix: nil, namespace: nil
-      map_element "Identifier", to: :identifier, prefix: nil, namespace: nil
+      map_element 'ShortName', to: :short_name
+      map_element 'LongName', to: :long_name
+      map_element 'Identifier', to: :identifier
     end
   end
 end

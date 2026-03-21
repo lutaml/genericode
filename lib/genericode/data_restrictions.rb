@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require "lutaml/model"
+require 'lutaml/model'
 
-require_relative "datatype_facet"
+require_relative 'datatype_facet'
 
 module Genericode
   class DataRestrictions < Lutaml::Model::Serializable
@@ -10,16 +10,15 @@ module Genericode
     attribute :parameter, DatatypeFacet, collection: true
 
     json do
-      map "Lang", to: :lang
-      map "Parameter", to: :parameter
+      map 'Lang', to: :lang
+      map 'Parameter', to: :parameter
     end
 
     xml do
-      root "DataRestrictions"
-      namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
+      element 'DataRestrictions'
 
-      map_attribute "Lang", to: :lang
-      map_element "Parameter", to: :parameter, prefix: nil, namespace: nil
+      map_attribute 'Lang', to: :lang
+      map_element 'Parameter', to: :parameter
     end
   end
 end

@@ -5,4 +5,4 @@ module Genericode
   end
 end
 
-require_relative "cli/commands"
+require_relative 'cli/commands'
