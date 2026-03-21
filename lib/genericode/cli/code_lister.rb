@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative '../code_list'
-require 'tabulo'
-require 'csv'
+require_relative "../code_list"
+require "table_tennis"
+require "csv"
 
 module Genericode
   module Cli
@@ -13,10 +13,16 @@ module Genericode
 
           # Validate data types
           code_list.validate_verbose.each do |error|
-            raise Error, "#{error[:code]}: #{error[:message]}" if error[:code] == 'INVALID_DATA_TYPE'
+            if error[:code] == "INVALID_DATA_TYPE"
+              raise Error,
+                    "#{error[:code]}: #{error[:message]}"
+            end
 
             # Ensure valid ColumnRefs
-            raise Error, "#{error[:code]}: #{error[:message]}" if error[:code] == 'INVALID_COLUMN_REF'
+            if error[:code] == "INVALID_COLUMN_REF"
+              raise Error,
+                    "#{error[:code]}: #{error[:message]}"
+            end
           end
 
           case format
@@ -40,26 +46,25 @@ module Genericode
             rows.each do |row|
               csv << columns.map do |col|
                 value = row.value.find { |v| v.column_ref == col.id }
-                value&.simple_value&.content || ''
+                value&.simple_value&.content || ""
               end
             end
-          end.strip.encode('UTF-8')
+          end.strip.encode("UTF-8")
         end
 
         def list_table(code_list)
           columns = code_list.column_set.column
           rows = code_list.simple_code_list.row
 
-          table = Tabulo::Table.new(rows) do |t|
-            columns.each do |column|
-              t.add_column(column.short_name.content) do |row|
-                value = row.value.find { |v| v.column_ref == column.id }
-                value&.simple_value&.content || ''
-              end
+          headers = columns.map { |col| col.short_name.content }
+          data = rows.map do |row|
+            columns.map do |col|
+              value = row.value.find { |v| v.column_ref == col.id }
+              value&.simple_value&.content || ""
             end
           end
 
-          table.to_s
+          TableTennis.render([headers] + data)
         end
       end
     end

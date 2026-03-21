@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../code_list'
+require_relative "../code_list"
 
 module Genericode
   module Cli
