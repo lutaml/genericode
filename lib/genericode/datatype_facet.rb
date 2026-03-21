@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require "lutaml/model"
-require_relative "json/short_name_mixin"
+require 'lutaml/model'
+require_relative 'json/short_name_mixin'
 
 module Genericode
   class DatatypeFacet < Lutaml::Model::Serializable
@@ -12,18 +12,17 @@ module Genericode
     attribute :long_name, :string
 
     json do
-      map "ShortName", to: :short_name, with: { from: :short_name_from_json, to: :short_name_to_json }
-      map "LongName", to: :long_name
-      map "_", to: :content
+      map 'ShortName', to: :short_name, with: { from: :short_name_from_json, to: :short_name_to_json }
+      map 'LongName', to: :long_name
+      map '_', to: :content
     end
 
     xml do
-      root "DatatypeFacet"
-      namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
+      element 'DatatypeFacet'
 
       map_content to: :content
-      map_attribute "ShortName", to: :short_name
-      map_attribute "LongName", to: :long_name
+      map_attribute 'ShortName', to: :short_name
+      map_attribute 'LongName', to: :long_name
     end
   end
 end

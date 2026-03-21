@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-require "lutaml/model"
+require 'lutaml/model'
 
-require_relative "agency"
-require_relative "long_name"
-require_relative "mime_typed_uri"
-require_relative "canonical_uri"
-require_relative "short_name"
-require_relative "json/short_name_mixin"
-require_relative "json/canonical_uri_mixin"
-require_relative "utils"
+require_relative 'agency'
+require_relative 'long_name'
+require_relative 'mime_typed_uri'
+require_relative 'canonical_uri'
+require_relative 'short_name'
+require_relative 'json/short_name_mixin'
+require_relative 'json/canonical_uri_mixin'
+require_relative 'utils'
 
 module Genericode
   class Identification < Lutaml::Model::Serializable
@@ -26,16 +26,16 @@ module Genericode
     attribute :agency, Agency
 
     json do
-      map "ShortName", to: :short_name, with: { from: :short_name_from_json, to: :short_name_to_json }
-      map "LongName", to: :long_name, with: { from: :long_name_from_json, to: :long_name_to_json }
-      map "Version", to: :version
-      map "CanonicalUri", to: :canonical_uri, with: { from: :canonical_uri_from_json, to: :canonical_uri_to_json }
-      map "CanonicalVersionUri", to: :canonical_version_uri
-      map "LocationUri", to: :location_uri, with: { from: :location_uri_from_json, to: :location_uri_to_json }
-      map "AlternateFormatLocationUri", to: :alternate_format_location_uri,
+      map 'ShortName', to: :short_name, with: { from: :short_name_from_json, to: :short_name_to_json }
+      map 'LongName', to: :long_name, with: { from: :long_name_from_json, to: :long_name_to_json }
+      map 'Version', to: :version
+      map 'CanonicalUri', to: :canonical_uri, with: { from: :canonical_uri_from_json, to: :canonical_uri_to_json }
+      map 'CanonicalVersionUri', to: :canonical_version_uri
+      map 'LocationUri', to: :location_uri, with: { from: :location_uri_from_json, to: :location_uri_to_json }
+      map 'AlternateFormatLocationUri', to: :alternate_format_location_uri,
                                         with: { from: :alternate_format_location_uri_from_json,
-                                                to: :alternate_format_location_uri_to_json, }
-      map "Agency", to: :agency
+                                                to: :alternate_format_location_uri_to_json }
+      map 'Agency', to: :agency
     end
 
     def long_name_from_json(model, value)
@@ -45,7 +45,7 @@ module Genericode
     def long_name_to_json(model, doc)
       return if model.long_name.nil? || model.long_name.empty?
 
-      doc["LongName"] = LongName.as_json(model.long_name)
+      doc['LongName'] = LongName.as_json(model.long_name)
     end
 
     def location_uri_from_json(model, value)
@@ -57,7 +57,7 @@ module Genericode
     def location_uri_to_json(model, doc)
       return if model.location_uri.nil? || model.location_uri.empty?
 
-      doc["LocationUri"] = Lutaml::Model::Type::String.cast(Utils.one_or_all(model.location_uri))
+      doc['LocationUri'] = Lutaml::Model::Type::String.cast(Utils.one_or_all(model.location_uri))
     end
 
     def alternate_format_location_uri_from_json(model, value)
@@ -67,21 +67,20 @@ module Genericode
     def alternate_format_location_uri_to_json(model, doc)
       return if model.alternate_format_location_uri.nil? || model.alternate_format_location_uri.empty?
 
-      doc["AlternateFormatLocationUri"] = MimeTypedUri.as_json(Utils.one_or_all(model.alternate_format_location_uri))
+      doc['AlternateFormatLocationUri'] = MimeTypedUri.as_json(Utils.one_or_all(model.alternate_format_location_uri))
     end
 
     xml do
-      root "Identification"
-      namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
+      element 'Identification'
 
-      map_element "ShortName", to: :short_name, prefix: nil, namespace: nil
-      map_element "LongName", to: :long_name, prefix: nil, namespace: nil
-      map_element "Version", to: :version, prefix: nil, namespace: nil
-      map_element "CanonicalUri", to: :canonical_uri, prefix: nil, namespace: nil
-      map_element "CanonicalVersionUri", to: :canonical_version_uri, prefix: nil, namespace: nil
-      map_element "LocationUri", to: :location_uri, prefix: nil, namespace: nil
-      map_element "AlternateFormatLocationUri", to: :alternate_format_location_uri, prefix: nil, namespace: nil
-      map_element "Agency", to: :agency, prefix: nil, namespace: nil
+      map_element 'ShortName', to: :short_name
+      map_element 'LongName', to: :long_name
+      map_element 'Version', to: :version
+      map_element 'CanonicalUri', to: :canonical_uri
+      map_element 'CanonicalVersionUri', to: :canonical_version_uri
+      map_element 'LocationUri', to: :location_uri
+      map_element 'AlternateFormatLocationUri', to: :alternate_format_location_uri
+      map_element 'Agency', to: :agency
     end
   end
 end

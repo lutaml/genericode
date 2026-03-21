@@ -1,26 +1,26 @@
 # frozen_string_literal: true
 
-require "lutaml/model"
+require 'lutaml/model'
+require 'lutaml/xml/w3c'
 
 module Genericode
   class GeneralIdentifier < Lutaml::Model::Serializable
     attribute :content, :string
     attribute :identifier, :string
-    attribute :lang, :string
+    attribute :lang, Lutaml::Xml::W3c::XmlLangType
 
     json do
-      map "Identifier", to: :identifier
-      map "lang", to: :lang
-      map "_", to: :content
+      map 'Identifier', to: :identifier
+      map 'lang', to: :lang
+      map '_', to: :content
     end
 
     xml do
-      root "GeneralIdentifier"
-      namespace "http://docs.oasis-open.org/codelist/ns/genericode/1.0/", "gc"
+      element 'GeneralIdentifier'
 
       map_content to: :content
-      map_attribute "Identifier", to: :identifier
-      map_attribute "lang", to: :lang, prefix: "xml", namespace: "http://www.w3.org/XML/1998/namespace"
+      map_attribute 'Identifier', to: :identifier
+      map_attribute 'lang', to: :lang
     end
   end
 end

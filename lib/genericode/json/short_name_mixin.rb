@@ -10,7 +10,7 @@ module Genericode
       def short_name_to_json(model, doc)
         return if model.short_name.nil?
 
-        doc["ShortName"] = model.short_name.content
+        doc['ShortName'] = model.short_name.content
       end
     end
   end

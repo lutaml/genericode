@@ -1,21 +1,22 @@
 # frozen_string_literal: true
 
-require_relative "lib/genericode/version"
+require_relative 'lib/genericode/version'
 
 Gem::Specification.new do |spec|
-  spec.name = "genericode"
+  spec.name = 'genericode'
   spec.version = Genericode::VERSION
-  spec.authors = ["Ribose Inc."]
+  spec.authors = ['Ribose Inc.']
   spec.email = ["open.source@ribose.com'"]
 
-  spec.summary = "Parser and generator for OASIS Genericode"
-  spec.description = "Parser and generator for OASIS Genericode"
-  spec.homepage = "https://github.com/lutaml/genericode"
-  spec.required_ruby_version = ">= 2.7.0"
+  spec.summary = 'Parser and generator for OASIS Genericode'
+  spec.description = 'Parser and generator for OASIS Genericode'
+  spec.homepage = 'https://github.com/lutaml/genericode'
+  spec.required_ruby_version = '>= 2.7.0'
 
-  spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = spec.homepage
-  spec.metadata["changelog_uri"] = "https://github.com/lutaml/genericode/releases"
+  spec.metadata['homepage_uri'] = spec.homepage
+  spec.metadata['source_code_uri'] = spec.homepage
+  spec.metadata['changelog_uri'] = 'https://github.com/lutaml/genericode/releases'
+  spec.metadata['rubygems_mfa_required'] = 'true'
 
   gemspec = File.basename(__FILE__)
   spec.files = IO.popen(%w[git ls-files -z], chdir: __dir__, err: IO::NULL) do |ls|
@@ -24,12 +25,12 @@ Gem::Specification.new do |spec|
         f.start_with?(*%w[bin/ test/ spec/ features/ .git .github appveyor Gemfile])
     end
   end
-  spec.bindir = "exe"
+  spec.bindir = 'exe'
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
-  spec.require_paths = ["lib"]
+  spec.require_paths = ['lib']
 
-  spec.add_dependency "csv"
-  spec.add_dependency "lutaml-model", "~> 0.7"
-  spec.add_dependency "tabulo"
-  spec.add_dependency "thor"
+  spec.add_dependency 'csv'
+  spec.add_dependency 'lutaml-model', '~> 0.8.0'
+  spec.add_dependency 'tabulo'
+  spec.add_dependency 'thor'
 end
