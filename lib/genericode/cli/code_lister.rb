@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "../code_list"
-require "table_tennis"
-require "csv"
+require_relative '../code_list'
+require 'table_tennis'
+require 'csv'
 
 module Genericode
   module Cli
@@ -13,13 +13,13 @@ module Genericode
 
           # Validate data types
           code_list.validate_verbose.each do |error|
-            if error[:code] == "INVALID_DATA_TYPE"
+            if error[:code] == 'INVALID_DATA_TYPE'
               raise Error,
                     "#{error[:code]}: #{error[:message]}"
             end
 
             # Ensure valid ColumnRefs
-            if error[:code] == "INVALID_COLUMN_REF"
+            if error[:code] == 'INVALID_COLUMN_REF'
               raise Error,
                     "#{error[:code]}: #{error[:message]}"
             end
@@ -46,10 +46,10 @@ module Genericode
             rows.each do |row|
               csv << columns.map do |col|
                 value = row.value.find { |v| v.column_ref == col.id }
-                value&.simple_value&.content || ""
+                value&.simple_value&.content || ''
               end
             end
-          end.strip.encode("UTF-8")
+          end.strip.encode('UTF-8')
         end
 
         def list_table(code_list)
@@ -60,7 +60,7 @@ module Genericode
           data = rows.map do |row|
             columns.map do |col|
               value = row.value.find { |v| v.column_ref == col.id }
-              value&.simple_value&.content || ""
+              value&.simple_value&.content || ''
             end
           end
 
